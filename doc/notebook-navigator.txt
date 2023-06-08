@@ -1,0 +1,134 @@
+==============================================================================
+------------------------------------------------------------------------------
+*NotebookNavigator.doc* Easily navigate and work with code cells
+*NotebookNavigator*
+
+MIT License Copyright (c) 2023 Guillem Ballesteros
+
+==============================================================================
+
+Jupyter notebooks are great for prototyping and quickly iterating on an idea
+but the are hard to version control and track how code has been executed. Both
+issues are much less problematic when working with scripts. VSCode does this
+better. This plugin attempts to bring the functionality of Jupyter and VSCode
+style to neovim.
+
+# What is a code cell?
+A code cell is any code between a cell marker, usually a specially designated comment
+and the next cell marker or the end of the buffer. The first line of a buffer has an
+implicit cell marker before it.
+
+# What comes bundled?~
+- Jump up/down between cells
+- Execute cell (with and without jumping to the next one)
+- Create cells before/after the current one
+- Comment whole cells
+- A mini.ai textobject specification that you can use standalone.
+- A Hydra mode to quickly manipulate and execute cells.
+
+# Setup~
+Just run `require("notebook-navigator").setup(opts)` as you would with most Lua
+nvim packages. Any options that are left unspecified will take on their default
+values.
+
+------------------------------------------------------------------------------
+                                                                      *M.config*
+                                   `M.config`
+Module config
+
+Default values:
+>
+  M.config = {
+    -- Code cell marker. Cells start with the marker and end either at the beginning
+    -- of the next cell or at the end of the file.
+    cell_marker = "# %%",
+    -- If not `nil` the keymap defined in the string will activate the hydra head
+    activate_hydra_keys = nil,
+    -- If `true` a hint panel will be shown when the hydra head is active
+    show_hydra_hint = true,
+    -- Mappings while the hydra head is active.
+    hydra_keys = {
+      comment = "c",
+      execute = "X",
+      execute_and_move = "x",
+      move_up = "k",
+      move_down = "j",
+      add_cell_before = "a",
+      add_cell_after = "b",
+    },
+  }
+<
+
+------------------------------------------------------------------------------
+                                                                     *M.setup()*
+                              `M.setup`({config})
+Module setup
+
+Parameters~
+{config} `(table|nil)` Module config table. See |NotebookNavigator.config|.
+
+Usage~
+`require('cell-navigator').setup({})` (replace `{}` with your `config` table)
+   any config parameter which you not pass will take on its default value.
+
+------------------------------------------------------------------------------
+                                                               *M.miniai_spec()*
+                            `M.miniai_spec`({opts})
+Returns the boundaries of the current code cell.
+
+Parameters~
+{opts} `(string)` Either "i" to select the inner lines of the cell or "a" for
+  the outer cell.
+
+Return~
+`(table)` Table with keys from/to indicating the start and end of the cell.
+  The from/to fields themselves have a line and col field.
+
+------------------------------------------------------------------------------
+                                                                 *M.move_cell()*
+                              `M.move_cell`({dir})
+Move between cells
+
+Move between cells and indicate wheter we are at the first or last cell via the
+string output.
+
+Parameters~
+{dir} `(string)` Movement direction. "d" for down and "u" for up.
+
+Return~
+`(string)` If movement failed return "first" or "last" if we where at the
+  first/last cell.
+
+------------------------------------------------------------------------------
+                                                              *M.execute_cell()*
+                               `M.execute_cell`()
+Execute the current cell under the cursor
+
+------------------------------------------------------------------------------
+                                                          *M.execute_and_move()*
+                             `M.execute_and_move`()
+Execute the current cell under the cursor and jump to next cell. If no next cell
+is available it will create one like Jupyter notebooks.
+
+------------------------------------------------------------------------------
+                                                              *M.comment_cell()*
+                               `M.comment_cell`()
+Comment all the contents of the cell under the cursor
+
+The commenting functionality is supported by external plugins. Currently the
+following are supported:
+- mini.comment
+- comment.nvim
+
+------------------------------------------------------------------------------
+                                                           *M.add_cell_before()*
+                             `M.add_cell_before`()
+Create a cell on top of the current one and move to it
+
+------------------------------------------------------------------------------
+                                                            *M.add_cell_after()*
+                              `M.add_cell_after`()
+Create a cell under the current one and move to it
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
