@@ -2,10 +2,10 @@
 
 Notebook Navigator lets you manipulate and send code cells to a REPL.
 
-A great feature that comes with VSCode on by default is the ability to define
+A great feature that comes on by default with VSCode is the ability to define
 code cells and send them to a REPL like you would do in a Jupyter notebook but
-without the hassle of jupyter notebook files. Notebook Navigator brings you
-back that functionality and more!
+without the hassle of notebook files. Notebook Navigator brings you back that
+functionality and more!
 
 Notebook Navigator comes with the following functions and features:
 - Jump up/down between cells
@@ -60,7 +60,6 @@ be executed (just by smashing `x`) or for less commonly used functionality.
   },
   dependencies = {
     "echasnovski/mini.comment",
-    "echasnovski/mini.ai",
     "hkupty/iron.nvim",
     "anuvyklack/hydra.nvim",
   },
@@ -100,9 +99,9 @@ This is the default config:
 ```
 
 ## Dependencies
-The only hard dependency is right now on `iron.nvim` which provides the REPL,
-although support for others like `conjure` or `yarepl` may be added if people
-want them or are willing to send in PRs.
+The only hard dependency is on `iron.nvim` which provides the REPL, although
+support for others like `conjure` or `yarepl` may be added if people want them
+or are willing to send in PRs.
 
 Commenting cells of code depends on an external plugin. Either
 [comment.nvim](https://github.com/numToStr/Comment.nvim) or
@@ -124,10 +123,7 @@ Hydra mode!
 The `miniai_spec` function is also a valid mini.ai textobject specification.
 Just add it to the custom_textobjects and of you are of to the races!
 
-There are two ways to configure it.
-
-### Adding the 'mini.ai' textobject spec
-You can add the textobject specification to your 'mini.ai' config.
+All you need is to add the textobject specification to the 'mini.ai' `custom_textobjects`
 
 ```lua
 local nn = require "notebook-navigator"
@@ -141,13 +137,3 @@ ai.setup(
   }
 )
 ```
-
-## Current limitations
-Below is a list of the current limitations which will get fixed soon enough.
-
-- Only one cell marker is allowed globably. Only languages that support the same
-  comment style will work. The default is `# %%` which works in Python but wouldn't
-  in Lua. This is the first priority on the todo list by allowing different markers for filetypes
-  for different filetypes.
-- Pasting a yanked or deleted cell while in Hydra mode is broken. Just go out of the
-  hydra and paste it in the correct place.
