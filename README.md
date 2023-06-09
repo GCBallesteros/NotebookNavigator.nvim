@@ -72,6 +72,25 @@ be executed (just by smashing `x`) or for less commonly used functionality.
 }
 ```
 
+## Mini.ai integration
+The `miniai_spec` function is also a valid mini.ai textobject specification.
+Just add it to the custom_textobjects and of you are of to the races!
+
+All you need is to add the textobject specification to the 'mini.ai' `custom_textobjects`
+
+```lua
+local nn = require "notebook-navigator"
+local ai = require "mini.ai"
+
+ai.setup(
+  {
+    custom_textobjects = {
+      h = nn.miniai_spec,
+    },
+  }
+)
+```
+
 ## Detailed configuration
 Any options that are not specified when calling `setup` will take on their default values.
 This is the default config:
@@ -119,22 +138,3 @@ If you setup the mini.ai integration (see below) you can then do things like,
 `dah` to delete a cell, `yih` to copy just the code or `vah` to select the full
 cell in visual mode. (y)ank, (d)elete and (v)isual also work while inside the
 Hydra mode!
-
-## Mini.ai integration
-The `miniai_spec` function is also a valid mini.ai textobject specification.
-Just add it to the custom_textobjects and of you are of to the races!
-
-All you need is to add the textobject specification to the 'mini.ai' `custom_textobjects`
-
-```lua
-local nn = require "notebook-navigator"
-local ai = require "mini.ai"
-
-ai.setup(
-  {
-    custom_textobjects = {
-      h = nn.miniai_spec,
-    },
-  }
-)
-```
