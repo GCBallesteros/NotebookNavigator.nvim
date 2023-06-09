@@ -37,61 +37,72 @@ local got_hydra, hydra = pcall(require, "hydra")
 local commenter = require "notebook-navigator.commenters"
 local utils = require "notebook-navigator.utils"
 
-local function activate_hydra()
-    hydra({
+local hydra_hint = [[
+_j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
+_x_: execute & move down ^^          _X_: execute
+^^                _<esc>_/_q_: exit
+]]
+
+local function activate_hydra(config)
+    local hydra_config = {
         name = "NotebookNavigator",
         mode = { "n" },
         config = {
             invoke_on_body = true,
             color = "pink",
+            hint = { border = "rounded" },
         },
-        body = M.config.activate_hydra_keys,
+        body = config.activate_hydra_keys,
         heads = {
             {
-                M.config.hydra_keys.move_up,
+                config.hydra_keys.move_up,
                 function()
                     M.move_cell "u"
                 end,
                 { desc = "Move up" },
             },
             {
-                M.config.hydra_keys.move_down,
+                config.hydra_keys.move_down,
                 function()
                     M.move_cell "d"
                 end,
                 { desc = "Move down" },
             },
             {
-                M.config.hydra_keys.comment,
+                config.hydra_keys.comment,
                 M.comment_cell,
                 { desc = "Comment" },
             },
             {
-                M.config.hydra_keys.execute,
+                config.hydra_keys.execute,
                 M.execute_cell,
                 { desc = "Execute", nowait = true },
             },
             {
-                M.config.hydra_keys.execute_and_move,
+                config.hydra_keys.execute_and_move,
                 M.execute_and_move,
                 { desc = "Execute & Move", nowait = true },
             },
             {
-                M.config.hydra_keys.add_cell_after,
+                config.hydra_keys.add_cell_after,
                 M.add_cell_after,
                 { desc = "Add cell after", nowait = true },
             },
             {
-                M.config.hydra_keys.add_cell_before,
+                config.hydra_keys.add_cell_before,
                 M.add_cell_before,
                 { desc = "Add cell after", nowait = true },
             },
             { "q",     nil, { exit = true, nowait = true, desc = "exit" } },
             { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
         },
-    })
-end
+    }
+    if config.show_hydra_hint then
+        hydra_config.hint = hydra_hint
+    end
 
+    hydra(hydra_config)
+end
 
 --- Module config
 ---
@@ -160,7 +171,7 @@ M.setup = function(config)
     end
 
     if (M.config.activate_hydra_keys ~= nil) and got_hydra then
-        activate_hydra()
+        activate_hydra(M.config)
     end
 end
 
