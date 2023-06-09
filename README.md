@@ -9,12 +9,12 @@ functionality and more!
 
 Notebook Navigator comes with the following functions and features:
 - Jump up/down between cells
-- Execute cell (with and without jumping to the next one)
+- Run cells (with and without jumping to the next one)
 - Create cells before/after the current one
 - Comment whole cells
 - A [mini.ai](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md) textobject
   specification that you can use standalone
-- A [Hydra](https://github.com/anuvyklack/hydra.nvim) mode to quickly manipulate and execute
+- A [Hydra](https://github.com/anuvyklack/hydra.nvim) mode to quickly manipulate and run
   cells
 - Support for multiple languages. Notebooks are not just for Pythonistas!
 
@@ -49,15 +49,15 @@ Navigator.
 
 I personally like to have the moving between cell commands and cell executing functions
 available through leader keymaps but will turn to the Hydra head when many cells need to
-be executed (just by smashing `x`) or for less commonly used functionality.
+be run (just by smashing `x`) or for less commonly used functionality.
 ```lua
 {
   "GBallesteros/notebook-navigator.nvim",
   keys = {
     { "]h", function() require("notebook-navigator").move_cell "d" end },
     { "[h", function() require("notebook-navigator").move_cell "u" end },
-    { "<leader>X", "<cmd>lua require('notebook-navigator').execute_cell()<cr>" },
-    { "<leader>x", "<cmd>lua require('notebook-navigator').execute_and_move()<cr>" },
+    { "<leader>X", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
+    { "<leader>x", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
   },
   dependencies = {
     "echasnovski/mini.comment",
@@ -107,8 +107,8 @@ Any options that are not specified when calling `setup` will take on their defau
   -- Mappings while the hydra head is active.
   hydra_keys = {
     comment = "c",
-    execute = "X",
-    execute_and_move = "x",
+    run = "X",
+    run_and_move = "x",
     move_up = "k",
     move_down = "j",
     add_cell_before = "a",

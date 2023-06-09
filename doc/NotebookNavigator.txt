@@ -20,11 +20,11 @@ implicit cell marker before it.
 
 # What comes bundled?~
 - Jump up/down between cells
-- Execute cell (with and without jumping to the next one)
+- Run cells (with and without jumping to the next one)
 - Create cells before/after the current one
 - Comment whole cells
 - A mini.ai textobject specification that you can use standalone
-- A Hydra mode to quickly manipulate and execute cells
+- A Hydra mode to quickly manipulate and run cells
 - Support for multiple languages
 
 # Setup~
@@ -61,14 +61,14 @@ Return~
   first/last cell.
 
 ------------------------------------------------------------------------------
-                                                              *M.execute_cell()*
-                               `M.execute_cell`()
-Execute the current cell under the cursor
+                                                                  *M.run_cell()*
+                                 `M.run_cell`()
+Run the current cell under the cursor
 
 ------------------------------------------------------------------------------
-                                                          *M.execute_and_move()*
-                             `M.execute_and_move`()
-Execute the current cell under the cursor and jump to next cell. If no next cell
+                                                              *M.run_and_move()*
+                               `M.run_and_move`()
+Run the current cell under the cursor and jump to next cell. If no next cell
 is available it will create one like Jupyter notebooks.
 
 ------------------------------------------------------------------------------
@@ -109,8 +109,8 @@ Default values:
       -- Mappings while the hydra head is active.
       hydra_keys = {
           comment = "c",
-          execute = "X",
-          execute_and_move = "x",
+          run = "X",
+          run_and_move = "x",
           move_up = "k",
           move_down = "j",
           add_cell_before = "a",

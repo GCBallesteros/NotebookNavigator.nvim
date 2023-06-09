@@ -47,7 +47,7 @@ M.move_cell = function(dir, cell_marker)
     return result
 end
 
-M.execute_cell = function(cell_marker)
+M.run_cell = function(cell_marker)
     local cell_object = M.miniai_spec("i", cell_marker)
 
     -- protect ourselves against the case with no actual lines of code
@@ -61,8 +61,8 @@ M.execute_cell = function(cell_marker)
     iron.send(nil, lines)
 end
 
-M.execute_and_move = function(cell_marker)
-    M.execute_cell(cell_marker)
+M.run_and_move = function(cell_marker)
+    M.run_cell(cell_marker)
     local is_last_cell = M.move_cell("d", cell_marker) == "last"
 
     -- insert a new cell to replicate the behaviour of jupyter notebooks

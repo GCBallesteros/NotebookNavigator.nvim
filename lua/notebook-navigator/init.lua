@@ -18,11 +18,11 @@
 ---
 --- # What comes bundled?~
 --- - Jump up/down between cells
---- - Execute cell (with and without jumping to the next one)
+--- - Run cells (with and without jumping to the next one)
 --- - Create cells before/after the current one
 --- - Comment whole cells
 --- - A mini.ai textobject specification that you can use standalone
---- - A Hydra mode to quickly manipulate and execute cells
+--- - A Hydra mode to quickly manipulate and run cells
 --- - Support for multiple languages
 ---
 --- # Setup~
@@ -68,15 +68,15 @@ M.move_cell = function(dir)
     return core.move_cell(dir, cell_marker())
 end
 
---- Execute the current cell under the cursor
-M.execute_cell = function()
-    core.execute_cell(cell_marker())
+--- Run the current cell under the cursor
+M.run_cell = function()
+    core.run_cell(cell_marker())
 end
 
---- Execute the current cell under the cursor and jump to next cell. If no next cell
+--- Run the current cell under the cursor and jump to next cell. If no next cell
 --- is available it will create one like Jupyter notebooks.
-M.execute_and_move = function()
-    core.execute_and_move(cell_marker())
+M.run_and_move = function()
+    core.run_and_move(cell_marker())
 end
 
 --- Comment all the contents of the cell under the cursor
@@ -101,7 +101,7 @@ end
 
 local hydra_hint = [[
 _j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
-_x_: execute & move down ^^          _X_: execute
+_x_: run & move down ^^          _X_: run
 ^^                _<esc>_/_q_: exit
 ]]
 
@@ -136,14 +136,14 @@ local function activate_hydra(config)
                 { desc = "Comment" },
             },
             {
-                config.hydra_keys.execute,
-                M.execute_cell,
-                { desc = "Execute", nowait = true },
+                config.hydra_keys.run,
+                M.run_cell,
+                { desc = "Run", nowait = true },
             },
             {
-                config.hydra_keys.execute_and_move,
-                M.execute_and_move,
-                { desc = "Execute & Move", nowait = true },
+                config.hydra_keys.run_and_move,
+                M.run_and_move,
+                { desc = "Run & Move", nowait = true },
             },
             {
                 config.hydra_keys.add_cell_after,
@@ -181,8 +181,8 @@ M.config = {
     -- Mappings while the hydra head is active.
     hydra_keys = {
         comment = "c",
-        execute = "X",
-        execute_and_move = "x",
+        run = "X",
+        run_and_move = "x",
         move_up = "k",
         move_down = "j",
         add_cell_before = "a",
@@ -210,8 +210,8 @@ M.setup = function(config)
 
     vim.validate({
         ["config.hydra_keys.comment"] = { M.config.hydra_keys.comment, "string" },
-        ["config.hydra_keys.execute"] = { M.config.hydra_keys.execute, "string" },
-        ["config.hydra_keys.execute_and_move"] = { M.config.hydra_keys.execute_and_move, "string" },
+        ["config.hydra_keys.run"] = { M.config.hydra_keys.run, "string" },
+        ["config.hydra_keys.run_and_move"] = { M.config.hydra_keys.run_and_move, "string" },
         ["config.hydra_keys.move_up"] = { M.config.hydra_keys.move_up, "string" },
         ["config.hydra_keys.move_down"] = { M.config.hydra_keys.move_down, "string" },
         ["config.hydra_keys.add_cell_before"] = { M.config.hydra_keys.add_cell_before, "string" },
