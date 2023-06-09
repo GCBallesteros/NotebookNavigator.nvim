@@ -23,6 +23,7 @@
 --- - Comment whole cells
 --- - A mini.ai textobject specification that you can use standalone.
 --- - A Hydra mode to quickly manipulate and execute cells.
+--- - Support for multiple languages
 ---
 --- # Setup~
 --- Just run `require("notebook-navigator").setup(opts)` as you would with most Lua
@@ -34,6 +35,7 @@ local M = {}
 local got_iron, iron = pcall(require, "iron.core")
 local got_hydra, hydra = pcall(require, "hydra")
 local commenter = require "notebook-navigator.commenters"
+local utils = require "notebook-navigator.utils"
 
 local function activate_hydra()
     hydra({
@@ -90,6 +92,7 @@ local function activate_hydra()
     })
 end
 
+
 --- Module config
 ---
 --- Default values:
@@ -97,7 +100,7 @@ end
 M.config = {
     -- Code cell marker. Cells start with the marker and end either at the beginning
     -- of the next cell or at the end of the file.
-    cell_marker = "# %%",
+    cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
     -- If not `nil` the keymap defined in the string will activate the hydra head
     activate_hydra_keys = nil,
     -- If `true` a hint panel will be shown when the hydra head is active
@@ -126,7 +129,7 @@ M.setup = function(config)
     M.config = vim.tbl_deep_extend("force", M.config, config or {})
 
     vim.validate({
-        cell_marker = { M.config.cell_marker, "string" },
+        cell_markers = { M.config.cell_markers, "table" },
         activate_hydra_keys = { M.config.activate_hydra_keys, "string", true },
         show_hydra_hint = { M.config.show_hydra_hint, "boolean" },
         hydra_keys = { M.config.hydra_keys, "table" },
@@ -141,6 +144,12 @@ M.setup = function(config)
         ["config.hydra_keys.add_cell_before"] = { M.config.hydra_keys.add_cell_before, "string" },
         ["config.hydra_keys.add_cell_after"] = { M.config.hydra_keys.add_cell_after, "string" },
     })
+
+    for ft, marker in pairs(M.config.cell_markers) do
+        vim.validate({
+            ["config.cell_markers." .. ft] = { marker, "string" },
+        })
+    end
 
     if (not got_hydra) and (M.config.activate_hydra_keys ~= nil) then
         vim.notify "[NotebookNavigator] Hydra is not available.\nHydra will not be available."
@@ -163,7 +172,9 @@ end
 ---@return table Table with keys from/to indicating the start and end of the cell.
 ---   The from/to fields themselves have a line and col field.
 M.miniai_spec = function(opts)
-    local start_line = vim.fn.search("^" .. M.config.cell_marker, "bcnW")
+    local cell_marker = utils.get_cell_marker(0, M.config.cell_markers)
+    print(cell_marker)
+    local start_line = vim.fn.search("^" .. cell_marker, "bcnW")
 
     -- Just in case the notebook is malformed and doesnt  have a cell marker at the start.
     if start_line == 0 then
@@ -174,7 +185,7 @@ M.miniai_spec = function(opts)
         end
     end
 
-    local end_line = vim.fn.search("^" .. M.config.cell_marker, "nW") - 1
+    local end_line = vim.fn.search("^" .. cell_marker, "nW") - 1
     if end_line == -1 then
         end_line = vim.fn.line "$"
     end
@@ -200,13 +211,14 @@ M.move_cell = function(dir)
     local search_res
     local result
 
+    local cell_marker = utils.get_cell_marker(0, M.config.cell_markers)
     if dir == "d" then
-        search_res = vim.fn.search("^" .. M.config.cell_marker, "W")
+        search_res = vim.fn.search("^" .. cell_marker, "W")
         if search_res == 0 then
             result = "last"
         end
     else
-        search_res = vim.fn.search("^" .. M.config.cell_marker, "bW")
+        search_res = vim.fn.search("^" .. cell_marker, "bW")
         if search_res == 0 then
             result = "first"
         end
@@ -237,8 +249,9 @@ M.execute_and_move = function()
     local is_last_cell = M.move_cell "d" == "last"
 
     -- insert a new cell to replicate the behaviour of jupyter notebooks
+    local cell_marker = utils.get_cell_marker(0, M.config.cell_markers)
     if is_last_cell then
-        vim.api.nvim_buf_set_lines(0, -1, -1, false, { M.config.cell_marker, "" })
+        vim.api.nvim_buf_set_lines(0, -1, -1, false, { cell_marker, "" })
         -- and move to it
         M.move_cell "d"
     end
@@ -272,7 +285,7 @@ M.add_cell_before = function()
         cell_object.from.line - 1,
         cell_object.from.line - 1,
         false,
-        { M.config.cell_marker, "" }
+        { M.config.cell_markers, "" }
     )
     M.move_cell "u"
 end
@@ -281,7 +294,7 @@ end
 M.add_cell_after = function()
     local cell_object = M.miniai_spec "a"
 
-    vim.api.nvim_buf_set_lines(0, cell_object.to.line, cell_object.to.line, false, { M.config.cell_marker, "" })
+    vim.api.nvim_buf_set_lines(0, cell_object.to.line, cell_object.to.line, false, { M.config.cell_markers, "" })
     M.move_cell "d"
 end
 

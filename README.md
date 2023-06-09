@@ -16,6 +16,7 @@ Notebook Navigator comes with the following functions and features:
   specification that you can use standalone.
 - A [Hydra](https://github.com/anuvyklack/hydra.nvim) mode to quickly manipulate and execute
   cells.
+- Support for multiple languages. Notebooks are not just for Pythonistas!
 
 This plugin also pairs really well with tools like Jupytext that allow you to
 convert easily between `ipynb` and `py` files. For this you may want to use a
@@ -78,7 +79,7 @@ This is the default config:
 {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
-  cell_marker = "# %%",
+  cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
   -- If not `nil` the keymap defined in the string will activate the hydra head.
   -- If you don't want to use hydra you don't need to install it either.
   activate_hydra_keys = nil,
