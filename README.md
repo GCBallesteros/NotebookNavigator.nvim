@@ -52,7 +52,7 @@ available through leader keymaps but will turn to the Hydra head when many cells
 be run (just by smashing `x`) or for less commonly used functionality.
 ```lua
 {
-  "GBallesteros/notebook-navigator.nvim",
+  "GCBallesteros/NotebookNavigator.nvim",
   keys = {
     { "]h", function() require("notebook-navigator").move_cell "d" end },
     { "[h", function() require("notebook-navigator").move_cell "u" end },
