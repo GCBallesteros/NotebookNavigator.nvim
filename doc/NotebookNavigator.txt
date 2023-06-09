@@ -23,7 +23,7 @@ implicit cell marker before it.
 - Execute cell (with and without jumping to the next one)
 - Create cells before/after the current one
 - Comment whole cells
-- A mini.ai textobject specification that you can use standalone.
+- A mini.ai textobject specification that you can use standalone
 - A Hydra mode to quickly manipulate and execute cells
 - Support for multiple languages
 
