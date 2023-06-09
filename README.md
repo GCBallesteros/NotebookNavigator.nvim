@@ -13,9 +13,9 @@ Notebook Navigator comes with the following functions and features:
 - Create cells before/after the current one
 - Comment whole cells
 - A [mini.ai](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md) textobject
-  specification that you can use standalone.
+  specification that you can use standalone
 - A [Hydra](https://github.com/anuvyklack/hydra.nvim) mode to quickly manipulate and execute
-  cells.
+  cells
 - Support for multiple languages. Notebooks are not just for Pythonistas!
 
 This plugin also pairs really well with tools like Jupytext that allow you to
@@ -74,7 +74,7 @@ be executed (just by smashing `x`) or for less commonly used functionality.
 
 ## Mini.ai integration
 The `miniai_spec` function is also a valid mini.ai textobject specification.
-Just add it to the custom_textobjects and of you are of to the races!
+Just add it to the custom_textobjects and of you are off to the races!
 
 All you need is to add the textobject specification to the 'mini.ai' `custom_textobjects`
 
@@ -93,7 +93,6 @@ ai.setup(
 
 ## Detailed configuration
 Any options that are not specified when calling `setup` will take on their default values.
-This is the default config:
 ```lua
 {
   -- Code cell marker. Cells start with the marker and end either at the beginning

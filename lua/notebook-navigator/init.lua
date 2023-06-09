@@ -22,7 +22,7 @@
 --- - Create cells before/after the current one
 --- - Comment whole cells
 --- - A mini.ai textobject specification that you can use standalone.
---- - A Hydra mode to quickly manipulate and execute cells.
+--- - A Hydra mode to quickly manipulate and execute cells
 --- - Support for multiple languages
 ---
 --- # Setup~
