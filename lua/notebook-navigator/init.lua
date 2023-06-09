@@ -31,10 +31,6 @@
 
 local M = {}
 
--- TODO before publish
--- Organize commenters better into another function
--- test documentation install itself correct.y
-
 local got_iron, iron = pcall(require, "iron.core")
 local got_hydra, hydra = pcall(require, "hydra")
 local commenter = require "notebook-navigator.commenters"
