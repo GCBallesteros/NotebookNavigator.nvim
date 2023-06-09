@@ -127,27 +127,26 @@ M.config = {
 ---    any config parameter which you not pass will take on its default value.
 M.setup = function(config)
     vim.validate({ config = { config, "table", true } })
-    config = vim.tbl_deep_extend("force", M.config, config or {})
+    M.config = vim.tbl_deep_extend("force", M.config, config or {})
 
     vim.validate({
-        cell_marker = { config.cell_marker, "string" },
-        activate_hydra_keys = { config.activate_hydra_keys, "string", true },
-        show_hydra_hint = { config.show_hydra_hint, "boolean" },
-        hydra_keys = { config.hydra_keys, "table" },
+        cell_marker = { M.config.cell_marker, "string" },
+        activate_hydra_keys = { M.config.activate_hydra_keys, "string", true },
+        show_hydra_hint = { M.config.show_hydra_hint, "boolean" },
+        hydra_keys = { M.config.hydra_keys, "table" },
     })
 
     vim.validate({
-        ["config.hydra_keys.comment"] = { config.hydra_keys.comment, "string" },
-        ["config.hydra_keys.execute"] = { config.hydra_keys.execute, "string" },
-        ["config.hydra_keys.execute_and_move"] = { config.hydra_keys.execute_and_move, "string" },
-        ["config.hydra_keys.move_up"] = { config.hydra_keys.move_up, "string" },
-        ["config.hydra_keys.move_down"] = { config.hydra_keys.move_down, "string" },
-        ["config.hydra_keys.add_cell_before"] = { config.hydra_keys.add_cell_before, "string" },
-        ["config.hydra_keys.add_cell_after"] = { config.hydra_keys.add_cell_after, "string" },
+        ["config.hydra_keys.comment"] = { M.config.hydra_keys.comment, "string" },
+        ["config.hydra_keys.execute"] = { M.config.hydra_keys.execute, "string" },
+        ["config.hydra_keys.execute_and_move"] = { M.config.hydra_keys.execute_and_move, "string" },
+        ["config.hydra_keys.move_up"] = { M.config.hydra_keys.move_up, "string" },
+        ["config.hydra_keys.move_down"] = { M.config.hydra_keys.move_down, "string" },
+        ["config.hydra_keys.add_cell_before"] = { M.config.hydra_keys.add_cell_before, "string" },
+        ["config.hydra_keys.add_cell_after"] = { M.config.hydra_keys.add_cell_after, "string" },
     })
-    M.config = config
 
-    if (not got_hydra) and (config.activate_hydra_keys ~= nil) then
+    if (not got_hydra) and (M.config.activate_hydra_keys ~= nil) then
         vim.notify "[NotebookNavigator] Hydra is not available.\nHydra will not be available."
     end
 
@@ -155,7 +154,7 @@ M.setup = function(config)
         vim.notify "[NotebookNavigator] Iron is not available.\nMost functionality will error out."
     end
 
-    if (config.activate_hydra_keys ~= nil) and got_hydra then
+    if (M.config.activate_hydra_keys ~= nil) and got_hydra then
         activate_hydra()
     end
 end
