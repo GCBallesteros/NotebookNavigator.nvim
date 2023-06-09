@@ -32,10 +32,72 @@
 
 local M = {}
 
-local got_iron, iron = pcall(require, "iron.core")
+local got_iron, _ = pcall(require, "iron.core")
 local got_hydra, hydra = pcall(require, "hydra")
-local commenter = require "notebook-navigator.commenters"
+
+local core = require "notebook-navigator.core"
 local utils = require "notebook-navigator.utils"
+
+local cell_marker = function()
+    return utils.get_cell_marker(0, M.config.cell_markers)
+end
+
+-- Export directly the core functions specialized for cell markers
+
+--- Returns the boundaries of the current code cell.
+---
+---@param opts string Either "i" to select the inner lines of the cell or "a" for
+---   the outer cell.
+---
+---@return table Table with keys from/to indicating the start and end of the cell.
+---   The from/to fields themselves have a line and col field.
+M.miniai_spec = function(opts)
+    return core.miniai_spec(opts, cell_marker())
+end
+
+--- Move between cells
+---
+--- Move between cells and indicate wheter we are at the first or last cell via the
+--- string output.
+---
+---@param dir string Movement direction. "d" for down and "u" for up.
+---
+---@return string If movement failed return "first" or "last" if we where at the
+---   first/last cell.
+M.move_cell = function(dir)
+    return core.move_cell(dir, cell_marker())
+end
+
+--- Execute the current cell under the cursor
+M.execute_cell = function()
+    core.execute_cell(cell_marker())
+end
+
+--- Execute the current cell under the cursor and jump to next cell. If no next cell
+--- is available it will create one like Jupyter notebooks.
+M.execute_and_move = function()
+    core.execute_and_move(cell_marker())
+end
+
+--- Comment all the contents of the cell under the cursor
+---
+--- The commenting functionality is supported by external plugins. Currently the
+--- following are supported:
+--- - mini.comment
+--- - comment.nvim
+M.comment_cell = function()
+    core.comment_cell(cell_marker())
+end
+
+--- Create a cell under the current one and move to it
+M.add_cell_after = function()
+    core.add_cell_after(cell_marker())
+end
+
+--- Create a cell on top of the current one and move to it
+M.add_cell_before = function()
+    core.add_cell_before(cell_marker())
+end
 
 local hydra_hint = [[
 _j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
@@ -173,140 +235,6 @@ M.setup = function(config)
     if (M.config.activate_hydra_keys ~= nil) and got_hydra then
         activate_hydra(M.config)
     end
-end
-
---- Returns the boundaries of the current code cell.
----
----@param opts string Either "i" to select the inner lines of the cell or "a" for
----   the outer cell.
----
----@return table Table with keys from/to indicating the start and end of the cell.
----   The from/to fields themselves have a line and col field.
-M.miniai_spec = function(opts)
-    local cell_marker = utils.get_cell_marker(0, M.config.cell_markers)
-    print(cell_marker)
-    local start_line = vim.fn.search("^" .. cell_marker, "bcnW")
-
-    -- Just in case the notebook is malformed and doesnt  have a cell marker at the start.
-    if start_line == 0 then
-        start_line = 1
-    else
-        if opts == "i" then
-            start_line = start_line + 1
-        end
-    end
-
-    local end_line = vim.fn.search("^" .. cell_marker, "nW") - 1
-    if end_line == -1 then
-        end_line = vim.fn.line "$"
-    end
-
-    local last_col = math.max(vim.fn.getline(end_line):len(), 1)
-
-    local from = { line = start_line, col = 1 }
-    local to = { line = end_line, col = last_col }
-
-    return { from = from, to = to }
-end
-
---- Move between cells
----
---- Move between cells and indicate wheter we are at the first or last cell via the
---- string output.
----
----@param dir string Movement direction. "d" for down and "u" for up.
----
----@return string If movement failed return "first" or "last" if we where at the
----   first/last cell.
-M.move_cell = function(dir)
-    local search_res
-    local result
-
-    local cell_marker = utils.get_cell_marker(0, M.config.cell_markers)
-    if dir == "d" then
-        search_res = vim.fn.search("^" .. cell_marker, "W")
-        if search_res == 0 then
-            result = "last"
-        end
-    else
-        search_res = vim.fn.search("^" .. cell_marker, "bW")
-        if search_res == 0 then
-            result = "first"
-        end
-    end
-
-    return result
-end
-
---- Execute the current cell under the cursor
-M.execute_cell = function()
-    local cell_object = M.miniai_spec "i"
-
-    -- protect ourselves against the case with no actual lines of code
-    local n_lines = cell_object.to.line - cell_object.from.line + 1
-    if n_lines < 1 then
-        return nil
-    end
-
-    local lines = vim.api.nvim_buf_get_lines(0, cell_object.from.line - 1, cell_object.to.line, 0)
-
-    iron.send(nil, lines)
-end
-
---- Execute the current cell under the cursor and jump to next cell. If no next cell
---- is available it will create one like Jupyter notebooks.
-M.execute_and_move = function()
-    M.execute_cell()
-    local is_last_cell = M.move_cell "d" == "last"
-
-    -- insert a new cell to replicate the behaviour of jupyter notebooks
-    local cell_marker = utils.get_cell_marker(0, M.config.cell_markers)
-    if is_last_cell then
-        vim.api.nvim_buf_set_lines(0, -1, -1, false, { cell_marker, "" })
-        -- and move to it
-        M.move_cell "d"
-    end
-end
-
---- Comment all the contents of the cell under the cursor
----
---- The commenting functionality is supported by external plugins. Currently the
---- following are supported:
---- - mini.comment
---- - comment.nvim
-M.comment_cell = function()
-    local cell_object = M.miniai_spec "i"
-
-    -- protect against empty cells
-    local n_lines = cell_object.to.line - cell_object.from.line + 1
-    if n_lines < 1 then
-        return nil
-    end
-    commenter(cell_object)
-end
-
---- Create a cell on top of the current one and move to it
-M.add_cell_before = function()
-    local cell_object = M.miniai_spec "a"
-
-    -- What to do on malformed notebooks? I.e. with no upper cell marker? are they malformed?
-    -- What if we have a jupytext header? Code doesn't start at top of buffer.
-    vim.api.nvim_buf_set_lines(
-        0,
-        cell_object.from.line - 1,
-        cell_object.from.line - 1,
-        false,
-        { M.config.cell_markers, "" }
-    )
-    M.move_cell "u"
-end
-
---- Create a cell under the current one and move to it
-M.add_cell_after = function()
-    local cell_object = M.miniai_spec "a"
-
-    vim.api.nvim_buf_set_lines(0, cell_object.to.line, cell_object.to.line, false, { M.config.cell_markers, "" })
-    M.move_cell "d"
 end
 
 return M

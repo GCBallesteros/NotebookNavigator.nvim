@@ -33,46 +33,6 @@ nvim packages. Any options that are left unspecified will take on their default
 values.
 
 ------------------------------------------------------------------------------
-                                                                      *M.config*
-                                   `M.config`
-Module config
-
-Default values:
->
-  M.config = {
-      -- Code cell marker. Cells start with the marker and end either at the beginning
-      -- of the next cell or at the end of the file.
-      cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
-      -- If not `nil` the keymap defined in the string will activate the hydra head
-      activate_hydra_keys = nil,
-      -- If `true` a hint panel will be shown when the hydra head is active
-      show_hydra_hint = true,
-      -- Mappings while the hydra head is active.
-      hydra_keys = {
-          comment = "c",
-          execute = "X",
-          execute_and_move = "x",
-          move_up = "k",
-          move_down = "j",
-          add_cell_before = "a",
-          add_cell_after = "b",
-      },
-  }
-<
-
-------------------------------------------------------------------------------
-                                                                     *M.setup()*
-                              `M.setup`({config})
-Module setup
-
-Parameters~
-{config} `(table|nil)` Module config table. See |NotebookNavigator.config|.
-
-Usage~
-`require('cell-navigator').setup({})` (replace `{}` with your `config` table)
-   any config parameter which you not pass will take on its default value.
-
-------------------------------------------------------------------------------
                                                                *M.miniai_spec()*
                             `M.miniai_spec`({opts})
 Returns the boundaries of the current code cell.
@@ -122,14 +82,54 @@ following are supported:
 - comment.nvim
 
 ------------------------------------------------------------------------------
+                                                            *M.add_cell_after()*
+                              `M.add_cell_after`()
+Create a cell under the current one and move to it
+
+------------------------------------------------------------------------------
                                                            *M.add_cell_before()*
                              `M.add_cell_before`()
 Create a cell on top of the current one and move to it
 
 ------------------------------------------------------------------------------
-                                                            *M.add_cell_after()*
-                              `M.add_cell_after`()
-Create a cell under the current one and move to it
+                                                                      *M.config*
+                                   `M.config`
+Module config
+
+Default values:
+>
+  M.config = {
+      -- Code cell marker. Cells start with the marker and end either at the beginning
+      -- of the next cell or at the end of the file.
+      cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
+      -- If not `nil` the keymap defined in the string will activate the hydra head
+      activate_hydra_keys = nil,
+      -- If `true` a hint panel will be shown when the hydra head is active
+      show_hydra_hint = true,
+      -- Mappings while the hydra head is active.
+      hydra_keys = {
+          comment = "c",
+          execute = "X",
+          execute_and_move = "x",
+          move_up = "k",
+          move_down = "j",
+          add_cell_before = "a",
+          add_cell_after = "b",
+      },
+  }
+<
+
+------------------------------------------------------------------------------
+                                                                     *M.setup()*
+                              `M.setup`({config})
+Module setup
+
+Parameters~
+{config} `(table|nil)` Module config table. See |NotebookNavigator.config|.
+
+Usage~
+`require('cell-navigator').setup({})` (replace `{}` with your `config` table)
+   any config parameter which you not pass will take on its default value.
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:
