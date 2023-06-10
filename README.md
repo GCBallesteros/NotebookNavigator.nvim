@@ -23,7 +23,7 @@ convert easily between `ipynb` and `py` files. For this you may want to use a
 plugin such as [jupytext.vim](GCBallesteros/jupytext.vim)  (my fork with some
 extras) or the [original repo](goerz/jupytext.vim).
 
-[notebook-navigator](assets/notebook_navigator.gif)
+![notebook-navigator](assets/notebook_navigator.gif)
 
 This plugin is an evolution of my previous setup which you can find
 [here](https://www.maxwellrules.com/misc/nvim_jupyter.html).
