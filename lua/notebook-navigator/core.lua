@@ -41,6 +41,7 @@ M.move_cell = function(dir, cell_marker)
         search_res = vim.fn.search("^" .. cell_marker, "bW")
         if search_res == 0 then
             result = "first"
+            vim.api.nvim_win_set_cursor(0, { 1, 0 })
         end
     end
 
