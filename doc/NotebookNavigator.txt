@@ -116,6 +116,10 @@ Default values:
           add_cell_before = "a",
           add_cell_after = "b",
       },
+      -- The repl plugin with which to interface
+      -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
+      -- or "auto" which checks which of the above are installed
+      repl_provider = "auto",
   }
 <
 
