@@ -30,7 +30,7 @@ This plugin is an evolution of my previous setup which you can find
 
 ## What is a code cell?
 A code cell is any code between a cell marker, usually a specially designated comment
-and the next cell marker or the end of the buffer. The first line of a buffer has an 
+and the next cell marker or the end of the buffer. The first line of a buffer has an
 implicit cell marker before it.
 
 For example here are a bunch of cells on a Python script
@@ -61,7 +61,8 @@ be run (just by smashing `x`) or for less commonly used functionality.
   },
   dependencies = {
     "echasnovski/mini.comment",
-    "hkupty/iron.nvim",
+    "hkupty/iron.nvim", -- repl provider
+    -- or "akinsho/toggleterm.nvim" -- repl provider
     "anuvyklack/hydra.nvim",
   },
   event = "VeryLazy",
@@ -114,12 +115,17 @@ Any options that are not specified when calling `setup` will take on their defau
     add_cell_before = "a",
     add_cell_after = "b",
   },
+  -- The repl plugin with which to interface
+  -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
+  -- or "auto" which checks which of the above are installed
+  repl_provider = "auto",
 }
 ```
 
 ## Dependencies
-The only hard dependency is on `iron.nvim` which provides the REPL, although
-support for others like `conjure` or `yarepl` may be added if people want them
+The only REPL options are currently `iron.nvim` or `toggleterm.nvim` which are automatically detected
+if installed.
+Support for others like `conjure` or `yarepl` may be added if people want them
 or are willing to send in PRs.
 
 Commenting cells of code depends on an external plugin. Either
