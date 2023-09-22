@@ -58,7 +58,7 @@ M.merge_cell = function(dir, cell_marker)
   else
     search_res = vim.fn.search("^" .. cell_marker, "nbW")
     if search_res == 0 then
-      return "first"
+      result = "first"
     else
       vim.api.nvim_buf_set_lines(0, search_res-1, search_res, false, {""})
     end
@@ -71,6 +71,20 @@ M.split_cell = function(cell_marker)
   local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
   vim.api.nvim_buf_set_lines(0, cursor_line-1, cursor_line-1, false, {cell_marker})
   vim.api.nvim_win_set_cursor(0, {cursor_line+1, 0})
+end
+
+M.toggle_cell_label = function(label, cell_marker)
+  local search_res
+
+  search_res = vim.fn.search("^" .. cell_marker, "ncbW")
+  local current_line = vim.api.nvim_buf_get_lines(0, search_res-1, search_res, false)[1]
+  local new_line = current_line
+  if string.find(current_line, label) == nil then
+    new_line = current_line .. " ["..label.."]"
+  else
+    new_line = string.gsub(new_line, " %["..label.."%]", "")
+  end
+  vim.api.nvim_buf_set_lines(0, search_res-1, search_res, false, {new_line})
 end
 
 M.run_cell = function(cell_marker)
