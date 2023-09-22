@@ -84,6 +84,20 @@ M.split_cell = function()
   return core.split_cell(cell_marker())
 end
 
+--- Delete cell
+---
+--- Remove cell top marker and contents
+M.delete_cell = function()
+  return core.delete_cell(cell_marker())
+end
+
+--- Duplicate cell
+---
+--- Copy cell contents to new cell below
+M.duplicate_cell = function()
+  return core.duplicate_cell(cell_marker())
+end
+
 --- Toggle markdown
 ---
 --- Append or remove [markdown] label to cell marker
@@ -130,6 +144,7 @@ end
 local hydra_hint = [[
 _j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
 _n_/_p_: merge cell below/above _s_: split cell _m_: toggle markdown
+_d_: delete cell _r_: duplicate cell
 _x_: run & move down ^^          _X_: run
 ^^                _<esc>_/_q_: exit
 ]]
@@ -177,6 +192,16 @@ local function activate_hydra(config)
         config.hydra_keys.split,
         M.split_cell,
         { desc = "Split" },
+      },
+      {
+        config.hydra_keys.delete,
+        M.delete_cell,
+        { desc = "Delete" },
+      },
+      {
+        config.hydra_keys.duplicate,
+        M.duplicate_cell,
+        { desc = "Duplicate" },
       },
       {
         config.hydra_keys.toggle_markdown,
@@ -241,6 +266,8 @@ M.config = {
     merge_up = "p",
     merge_down = "n",
     split = "s",
+    delete = "d",
+    duplicate = "r",
     toggle_markdown = "m",
     add_cell_before = "a",
     add_cell_after = "b",
@@ -273,7 +300,8 @@ M.setup = function(config)
     ["config.hydra_keys.move_down"] = { M.config.hydra_keys.move_down, "string" },
     ["config.hydra_keys.merge_up"] = { M.config.hydra_keys.merge_up, "string" },
     ["config.hydra_keys.merge_down"] = { M.config.hydra_keys.merge_down, "string" },
-    ["config.hydra_keys.split"] = { M.config.hydra_keys.split, "string" },
+    ["config.hydra_keys.delete"] = { M.config.hydra_keys.delete, "string" },
+    ["config.hydra_keys.duplicate"] = { M.config.hydra_keys.duplicate, "string" },
     ["config.hydra_keys.toggle_markdown"] = { M.config.hydra_keys.toggle_markdown, "string" },
     ["config.hydra_keys.add_cell_before"] = { M.config.hydra_keys.add_cell_before, "string" },
     ["config.hydra_keys.add_cell_after"] = { M.config.hydra_keys.add_cell_after, "string" },

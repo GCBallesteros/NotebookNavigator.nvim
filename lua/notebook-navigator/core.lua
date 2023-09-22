@@ -73,6 +73,18 @@ M.split_cell = function(cell_marker)
   vim.api.nvim_win_set_cursor(0, {cursor_line+1, 0})
 end
 
+M.delete_cell = function(cell_marker)
+  local cell_object = M.miniai_spec("i", cell_marker)
+  vim.api.nvim_buf_set_lines(0, cell_object.from.line-2, cell_object.to.line, false, {})
+end
+
+M.duplicate_cell = function(cell_marker)
+  local cell_object = M.miniai_spec("i", cell_marker)
+  local cell_lines = vim.api.nvim_buf_get_lines(0, cell_object.from.line-2, cell_object.to.line, false)
+  vim.api.nvim_buf_set_lines(0, cell_object.to.line, cell_object.to.line, false, cell_lines)
+  vim.api.nvim_win_set_cursor(0, {cell_object.to.line+1, 0})
+end
+
 M.toggle_cell_label = function(label, cell_marker)
   local search_res
 
@@ -147,3 +159,4 @@ M.add_cell_after = function(cell_marker)
 end
 
 return M
+
