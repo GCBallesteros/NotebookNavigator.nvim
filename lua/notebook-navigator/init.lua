@@ -77,6 +77,13 @@ M.merge_cell = function(dir)
   return core.merge_cell(dir, cell_marker())
 end
 
+--- Split cell
+---
+--- Insert cell marker on new line above cursor
+M.split_cell = function()
+  return core.split_cell(cell_marker())
+end
+
 --- Run the current cell under the cursor
 M.run_cell = function()
   core.run_cell(cell_marker())
@@ -115,7 +122,7 @@ end
 -- ]]
 local hydra_hint = [[
 _j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
-_n_/_p_: merge cell below/above
+_n_/_p_: merge cell below/above _s_: split cell
 _x_: run & move down ^^          _X_: run
 ^^                _<esc>_/_q_: exit
 ]]
@@ -158,6 +165,11 @@ local function activate_hydra(config)
           M.merge_cell "d"
         end,
         { desc = "Merge down" },
+      },
+      {
+        config.hydra_keys.split,
+        M.split_cell,
+        { desc = "Split" },
       },
       {
         config.hydra_keys.comment,
@@ -216,6 +228,7 @@ M.config = {
     move_down = "j",
     merge_up = "p",
     merge_down = "n",
+    split = "s",
     add_cell_before = "a",
     add_cell_after = "b",
   },
@@ -247,6 +260,7 @@ M.setup = function(config)
     ["config.hydra_keys.move_down"] = { M.config.hydra_keys.move_down, "string" },
     ["config.hydra_keys.merge_up"] = { M.config.hydra_keys.merge_up, "string" },
     ["config.hydra_keys.merge_down"] = { M.config.hydra_keys.merge_down, "string" },
+    ["config.hydra_keys.split"] = { M.config.hydra_keys.split, "string" },
     ["config.hydra_keys.add_cell_before"] = { M.config.hydra_keys.add_cell_before, "string" },
     ["config.hydra_keys.add_cell_after"] = { M.config.hydra_keys.add_cell_after, "string" },
   })

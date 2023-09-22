@@ -67,6 +67,12 @@ M.merge_cell = function(dir, cell_marker)
   return result
 end
 
+M.split_cell = function(cell_marker)
+  local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+  vim.api.nvim_buf_set_lines(0, cursor_line-1, cursor_line-1, false, {cell_marker})
+  vim.api.nvim_win_set_cursor(0, {cursor_line+1, 0})
+end
+
 M.run_cell = function(cell_marker)
   local cell_object = M.miniai_spec("i", cell_marker)
 
