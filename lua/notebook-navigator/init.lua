@@ -36,6 +36,7 @@ local got_iron, _ = pcall(require, "iron.core")
 local got_hydra, hydra = pcall(require, "hydra")
 
 local core = require "notebook-navigator.core"
+local highlight = require "notebook-navigator.highlight"
 local utils = require "notebook-navigator.utils"
 
 local cell_marker = function()
@@ -174,6 +175,8 @@ M.config = {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
   cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
+  -- If not `nil`, cell markers will be highlighted
+  cell_highlight_group = "CursorLineNr",
   -- If not `nil` the keymap defined in the string will activate the hydra head
   activate_hydra_keys = nil,
   -- If `true` a hint panel will be shown when the hydra head is active
@@ -234,6 +237,17 @@ M.setup = function(config)
 
   if (M.config.activate_hydra_keys ~= nil) and got_hydra then
     activate_hydra(M.config)
+  end
+
+  vim.api.nvim_create_augroup("NotebookNavigator", {clear=true})
+  if (M.config.cell_highlight_group ~= nil) then
+    local auto_cell_highlight = function()
+      local ft = vim.bo.filetype
+      if M.config.cell_markers[ft] ~= nil then
+        highlight.highlight_cells(M.config.cell_markers[ft], M.config.cell_highlight_group)
+      end
+    end
+    vim.api.nvim_create_autocmd({"BufEnter", "TextChanged", "TextChangedI"}, {group="NotebookNavigator",pattern={"*"},callback=auto_cell_highlight})
   end
 end
 
