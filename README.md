@@ -30,7 +30,7 @@ This plugin is an evolution of my previous setup which you can find
 
 ## What is a code cell?
 A code cell is any code between a cell marker, usually a specially designated comment
-and the next cell marker or the end of the buffer. The first line of a buffer has an 
+and the next cell marker or the end of the buffer. The first line of a buffer has an
 implicit cell marker before it.
 
 For example here are a bunch of cells on a Python script
@@ -98,6 +98,8 @@ Any options that are not specified when calling `setup` will take on their defau
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
   cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
+  -- If not `nil`, cell markers will be highlighted
+  cell_highlight_group = "CursorLineNr",
   -- If not `nil` the keymap defined in the string will activate the hydra head.
   -- If you don't want to use hydra you don't need to install it either.
   activate_hydra_keys = nil,
