@@ -77,6 +77,15 @@ M.merge_cell = function(dir)
   return core.merge_cell(dir, cell_marker())
 end
 
+--- Swap cell
+---
+--- Swap cell with the above or below
+---
+---@param dir string Swap direction. "d" for down and "u" for up.
+M.swap_cell = function(dir)
+  return core.swap_cell(dir, cell_marker())
+end
+
 --- Split cell
 ---
 --- Insert cell marker on new line above cursor
@@ -144,7 +153,7 @@ end
 local hydra_hint = [[
 _j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
 _n_/_p_: merge cell below/above _s_: split cell _m_: toggle markdown
-_d_: delete cell _r_: duplicate cell
+_d_: delete cell _r_: duplicate cell _h_/_l_: swap cell up/down
 _x_: run & move down ^^          _X_: run
 ^^                _<esc>_/_q_: exit
 ]]
@@ -187,6 +196,20 @@ local function activate_hydra(config)
           M.merge_cell "d"
         end,
         { desc = "Merge down" },
+      },
+      {
+        config.hydra_keys.swap_up,
+        function()
+          M.swap_cell "u"
+        end,
+        { desc = "Swap up" },
+      },
+      {
+        config.hydra_keys.swap_down,
+        function()
+          M.swap_cell "d"
+        end,
+        { desc = "Swap down" },
       },
       {
         config.hydra_keys.split,
@@ -265,6 +288,8 @@ M.config = {
     move_down = "j",
     merge_up = "p",
     merge_down = "n",
+    swap_up = "h",
+    swap_down = "l",
     split = "s",
     delete = "d",
     duplicate = "r",
@@ -300,6 +325,8 @@ M.setup = function(config)
     ["config.hydra_keys.move_down"] = { M.config.hydra_keys.move_down, "string" },
     ["config.hydra_keys.merge_up"] = { M.config.hydra_keys.merge_up, "string" },
     ["config.hydra_keys.merge_down"] = { M.config.hydra_keys.merge_down, "string" },
+    ["config.hydra_keys.swap_up"] = { M.config.hydra_keys.swap_up, "string" },
+    ["config.hydra_keys.swap_down"] = { M.config.hydra_keys.swap_down, "string" },
     ["config.hydra_keys.delete"] = { M.config.hydra_keys.delete, "string" },
     ["config.hydra_keys.duplicate"] = { M.config.hydra_keys.duplicate, "string" },
     ["config.hydra_keys.toggle_markdown"] = { M.config.hydra_keys.toggle_markdown, "string" },

@@ -67,6 +67,44 @@ M.merge_cell = function(dir, cell_marker)
   return result
 end
 
+M.swap_cell = function(dir, cell_marker)
+  local buf_length = vim.api.nvim_buf_line_count(0)
+
+  -- Get cells in their future order
+  local starting_cursor = vim.api.nvim_win_get_cursor(0)
+  local first_cell
+  local second_cell
+  if dir == "d" then
+    second_cell = M.miniai_spec("i", cell_marker)
+    if second_cell.to.line+2 > buf_length then return end
+    vim.api.nvim_win_set_cursor(0, {second_cell.to.line+2, 0})
+    first_cell = M.miniai_spec("i", cell_marker)
+  else
+    first_cell = M.miniai_spec("i", cell_marker)
+    if first_cell.from.line-2 < 1 then return end
+    vim.api.nvim_win_set_cursor(0, {first_cell.from.line-2, 0})
+    second_cell = M.miniai_spec("i", cell_marker)
+  end
+
+  -- Combine cells and set in place
+  local first_lines = vim.api.nvim_buf_get_lines(0, first_cell.from.line-1,first_cell.to.line, false)
+  local second_lines = vim.api.nvim_buf_get_lines(0, second_cell.from.line-1,second_cell.to.line, false)
+  table.insert(first_lines, cell_marker)
+  for _,v in ipairs(second_lines) do
+    table.insert(first_lines, v)
+  end
+  vim.api.nvim_buf_set_lines(0, second_cell.from.line-1, first_cell.to.line, false, first_lines)
+
+  -- Put cursor in previous position
+  local new_cursor = starting_cursor
+  if dir == "d" then
+    new_cursor[1] = new_cursor[1] + (first_cell.to.line - first_cell.from.line + 2)
+  else
+    new_cursor[1] = new_cursor[1] - (second_cell.to.line - second_cell.from.line + 2)
+  end
+  vim.api.nvim_win_set_cursor(0, new_cursor)
+end
+
 M.split_cell = function(cell_marker)
   local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
   vim.api.nvim_buf_set_lines(0, cursor_line-1, cursor_line-1, false, {cell_marker})
