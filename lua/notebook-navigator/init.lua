@@ -68,6 +68,15 @@ M.move_cell = function(dir)
   return core.move_cell(dir, cell_marker())
 end
 
+--- Merge cell
+---
+--- Merge cell with the above or below
+---
+---@param dir string Merge direction. "d" for down and "u" for up.
+M.merge_cell = function(dir)
+  return core.merge_cell(dir, cell_marker())
+end
+
 --- Run the current cell under the cursor
 M.run_cell = function()
   core.run_cell(cell_marker())
@@ -99,8 +108,14 @@ M.add_cell_before = function()
   core.add_cell_before(cell_marker())
 end
 
+-- local hydra_hint = [[
+-- _j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
+-- _x_: run & move down ^^          _X_: run
+-- ^^                _<esc>_/_q_: exit
+-- ]]
 local hydra_hint = [[
 _j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
+_n_/_p_: merge cell below/above
 _x_: run & move down ^^          _X_: run
 ^^                _<esc>_/_q_: exit
 ]]
@@ -129,6 +144,20 @@ local function activate_hydra(config)
           M.move_cell "d"
         end,
         { desc = "Move down" },
+      },
+      {
+        config.hydra_keys.merge_up,
+        function()
+          M.merge_cell "u"
+        end,
+        { desc = "Merge up" },
+      },
+      {
+        config.hydra_keys.merge_down,
+        function()
+          M.merge_cell "d"
+        end,
+        { desc = "Merge down" },
       },
       {
         config.hydra_keys.comment,
@@ -185,6 +214,8 @@ M.config = {
     run_and_move = "x",
     move_up = "k",
     move_down = "j",
+    merge_up = "p",
+    merge_down = "n",
     add_cell_before = "a",
     add_cell_after = "b",
   },
@@ -214,6 +245,8 @@ M.setup = function(config)
     ["config.hydra_keys.run_and_move"] = { M.config.hydra_keys.run_and_move, "string" },
     ["config.hydra_keys.move_up"] = { M.config.hydra_keys.move_up, "string" },
     ["config.hydra_keys.move_down"] = { M.config.hydra_keys.move_down, "string" },
+    ["config.hydra_keys.merge_up"] = { M.config.hydra_keys.merge_up, "string" },
+    ["config.hydra_keys.merge_down"] = { M.config.hydra_keys.merge_down, "string" },
     ["config.hydra_keys.add_cell_before"] = { M.config.hydra_keys.add_cell_before, "string" },
     ["config.hydra_keys.add_cell_after"] = { M.config.hydra_keys.add_cell_after, "string" },
   })

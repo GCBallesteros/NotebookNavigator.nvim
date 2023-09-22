@@ -48,6 +48,25 @@ M.move_cell = function(dir, cell_marker)
   return result
 end
 
+M.merge_cell = function(dir, cell_marker)
+  local search_res
+  local result
+
+  if dir == "d" then
+    search_res = vim.fn.search("^" .. cell_marker, "nW")
+    vim.api.nvim_buf_set_lines(0, search_res-1, search_res, false, {""})
+  else
+    search_res = vim.fn.search("^" .. cell_marker, "nbW")
+    if search_res == 0 then
+      return "first"
+    else
+      vim.api.nvim_buf_set_lines(0, search_res-1, search_res, false, {""})
+    end
+  end
+
+  return result
+end
+
 M.run_cell = function(cell_marker)
   local cell_object = M.miniai_spec("i", cell_marker)
 
