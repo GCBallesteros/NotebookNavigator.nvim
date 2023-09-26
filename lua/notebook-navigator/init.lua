@@ -33,6 +33,7 @@
 local M = {}
 
 local got_iron, _ = pcall(require, "iron.core")
+local got_toggleterm, _ = pcall(require, "toggleterm")
 local got_hydra, hydra = pcall(require, "hydra")
 
 local core = require "notebook-navigator.core"
@@ -71,13 +72,13 @@ end
 
 --- Run the current cell under the cursor
 M.run_cell = function()
-  core.run_cell(cell_marker())
+  core.run_cell(cell_marker(), M.config.repl_provider)
 end
 
 --- Run the current cell under the cursor and jump to next cell. If no next cell
 --- is available it will create one like Jupyter notebooks.
 M.run_and_move = function()
-  core.run_and_move(cell_marker())
+  core.run_and_move(cell_marker(), M.config.repl_provider)
 end
 
 --- Comment all the contents of the cell under the cursor
@@ -191,6 +192,10 @@ M.config = {
     add_cell_before = "a",
     add_cell_after = "b",
   },
+  -- The repl plugin with which to interface
+  -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
+  -- or "auto" which checks which of the above are installed
+  repl_provider = "auto",
 }
 --minidoc_afterlines_end
 
@@ -231,8 +236,8 @@ M.setup = function(config)
     vim.notify "[NotebookNavigator] Hydra is not available.\nHydra will not be available."
   end
 
-  if not got_iron then
-    vim.notify "[NotebookNavigator] Iron is not available.\nMost functionality will error out."
+  if not got_iron and not got_toggleterm then
+    vim.notify "[NotebookNavigator] REPL is not available.\nMost functionality will error out."
   end
 
   if (M.config.activate_hydra_keys ~= nil) and got_hydra then
