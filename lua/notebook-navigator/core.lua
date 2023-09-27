@@ -164,27 +164,26 @@ M.run_and_move = function(cell_marker, repl_provider, repl_args)
   end
 end
 
-M.run_all_cells = function()
+M.run_all_cells = function(repl_provider, repl_args)
   local buf_length = vim.api.nvim_buf_line_count(0)
-  local lines = vim.api.nvim_buf_get_lines(0, 0, buf_length, 0)
 
-  iron.send(nil, lines)
+  local repl = get_repl(repl_provider)
+  repl(1, buf_length, repl_args)
 end
 
-M.run_cells_above = function(cell_marker)
+M.run_cells_above = function(cell_marker, repl_provider, repl_args)
   local cell_object = M.miniai_spec("i", cell_marker)
-  vim.print(cell_object)
-  local lines = vim.api.nvim_buf_get_lines(0, 0, cell_object.from.line-1, 0)
 
-  iron.send(nil, lines)
+  local repl = get_repl(repl_provider)
+  repl(1, cell_object.from.line-1, repl_args)
 end
 
-M.run_cells_below = function(cell_marker)
+M.run_cells_below = function(cell_marker, repl_provider, repl_args)
   local buf_length = vim.api.nvim_buf_line_count(0)
   local cell_object = M.miniai_spec("i", cell_marker)
-  local lines = vim.api.nvim_buf_get_lines(0, cell_object.from.line-1, buf_length, 0)
 
-  iron.send(nil, lines)
+  local repl = get_repl(repl_provider)
+  repl(cell_object.from.line, buf_length, repl_args)
 end
 
 M.comment_cell = function(cell_marker)

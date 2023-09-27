@@ -128,17 +128,17 @@ end
 
 --- Run all cells in the file
 M.run_all_cells = function()
-  core.run_all_cells()
+  core.run_all_cells(M.config.repl_provider)
 end
 
 --- Run all cells above current cell
 M.run_cells_above = function()
-  core.run_cells_above(cell_marker())
+  core.run_cells_above(cell_marker(), M.config.repl_provider)
 end
 
 --- Run all cells below (including current cell)
 M.run_cells_below = function()
-  core.run_cells_below(cell_marker())
+  core.run_cells_below(cell_marker(), M.config.repl_provider)
 end
 
 --- Comment all the contents of the cell under the cursor
