@@ -20,8 +20,8 @@ Notebook Navigator comes with the following functions and features:
 
 This plugin also pairs really well with tools like Jupytext that allow you to
 convert easily between `ipynb` and `py` files. For this you may want to use a
-plugin such as [jupytext.vim](GCBallesteros/jupytext.vim)  (my fork with some
-extras) or the [original repo](goerz/jupytext.vim).
+plugin such as [jupytext.vim](https://github.com/GCBallesteros/jupytext.vim)  (my fork with some
+extras) or the [original repo](https://github.com/goerz/jupytext.vim).
 
 ![notebook-navigator](assets/notebook_navigator.gif)
 
