@@ -107,6 +107,60 @@ _x_: run & move down ^^          _X_: run
 ]]
 
 local function activate_hydra(config)
+  -- `hydra_heads` contains all the potential actions that our hydra will be able
+  -- to execute. After these definitions the list will get filtered down by checking
+  -- if the mapped key is nil
+  local hydra_heads = {
+    {
+      config.hydra_keys.move_up,
+      function()
+        M.move_cell "u"
+      end,
+      { desc = "Move up" },
+    },
+    {
+      config.hydra_keys.move_down,
+      function()
+        M.move_cell "d"
+      end,
+      { desc = "Move down" },
+    },
+    {
+      config.hydra_keys.comment,
+      M.comment_cell,
+      { desc = "Comment" },
+    },
+    {
+      config.hydra_keys.run,
+      M.run_cell,
+      { desc = "Run", nowait = true },
+    },
+    {
+      config.hydra_keys.run_and_move,
+      M.run_and_move,
+      { desc = "Run & Move", nowait = true },
+    },
+    {
+      config.hydra_keys.add_cell_after,
+      M.add_cell_after,
+      { desc = "Add cell after", nowait = true },
+    },
+    {
+      config.hydra_keys.add_cell_before,
+      M.add_cell_before,
+      { desc = "Add cell after", nowait = true },
+    },
+    { "q", nil, { exit = true, nowait = true, desc = "exit" } },
+    { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
+  }
+
+  local active_hydra_heads = {}
+  for _, h in ipairs(hydra_heads) do
+    if h[1] ~= "nil" then
+      table.insert(active_hydra_heads, h)
+    end
+  end
+
   local hydra_config = {
     name = "NotebookNavigator",
     mode = { "n" },
@@ -116,49 +170,7 @@ local function activate_hydra(config)
       hint = { border = "rounded" },
     },
     body = config.activate_hydra_keys,
-    heads = {
-      {
-        config.hydra_keys.move_up,
-        function()
-          M.move_cell "u"
-        end,
-        { desc = "Move up" },
-      },
-      {
-        config.hydra_keys.move_down,
-        function()
-          M.move_cell "d"
-        end,
-        { desc = "Move down" },
-      },
-      {
-        config.hydra_keys.comment,
-        M.comment_cell,
-        { desc = "Comment" },
-      },
-      {
-        config.hydra_keys.run,
-        M.run_cell,
-        { desc = "Run", nowait = true },
-      },
-      {
-        config.hydra_keys.run_and_move,
-        M.run_and_move,
-        { desc = "Run & Move", nowait = true },
-      },
-      {
-        config.hydra_keys.add_cell_after,
-        M.add_cell_after,
-        { desc = "Add cell after", nowait = true },
-      },
-      {
-        config.hydra_keys.add_cell_before,
-        M.add_cell_before,
-        { desc = "Add cell after", nowait = true },
-      },
-      { "q", nil, { exit = true, nowait = true, desc = "exit" } },
-      { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
-    },
+    heads = active_hydra_heads,
   }
   if config.show_hydra_hint then
     hydra_config.hint = hydra_hint
@@ -198,6 +210,8 @@ M.config = {
 
 --- Module setup
 ---
+--- Any of the `hydra_keys` mappings can be set to `nil` in order to stop them
+--- from being mapped.
 ---@param config table|nil Module config table. See |NotebookNavigator.config|.
 ---
 ---@usage `require('cell-navigator').setup({})` (replace `{}` with your `config` table)

@@ -99,27 +99,27 @@ Module config
 Default values:
 >
   M.config = {
-      -- Code cell marker. Cells start with the marker and end either at the beginning
-      -- of the next cell or at the end of the file.
-      cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
-      -- If not `nil` the keymap defined in the string will activate the hydra head
-      activate_hydra_keys = nil,
-      -- If `true` a hint panel will be shown when the hydra head is active
-      show_hydra_hint = true,
-      -- Mappings while the hydra head is active.
-      hydra_keys = {
-          comment = "c",
-          run = "X",
-          run_and_move = "x",
-          move_up = "k",
-          move_down = "j",
-          add_cell_before = "a",
-          add_cell_after = "b",
-      },
-      -- The repl plugin with which to interface
-      -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
-      -- or "auto" which checks which of the above are installed
-      repl_provider = "auto",
+    -- Code cell marker. Cells start with the marker and end either at the beginning
+    -- of the next cell or at the end of the file.
+    cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
+    -- If not `nil` the keymap defined in the string will activate the hydra head
+    activate_hydra_keys = nil,
+    -- If `true` a hint panel will be shown when the hydra head is active
+    show_hydra_hint = true,
+    -- Mappings while the hydra head is active.
+    hydra_keys = {
+      comment = "c",
+      run = "X",
+      run_and_move = "x",
+      move_up = "k",
+      move_down = "j",
+      add_cell_before = "a",
+      add_cell_after = "b",
+    },
+    -- The repl plugin with which to interface
+    -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
+    -- or "auto" which checks which of the above are installed
+    repl_provider = "auto",
   }
 <
 
@@ -128,6 +128,8 @@ Default values:
                               `M.setup`({config})
 Module setup
 
+Any of the `hydra_keys` mappings can be set to `nil` in order to stop them
+from being mapped.
 Parameters~
 {config} `(table|nil)` Module config table. See |NotebookNavigator.config|.
 
@@ -137,4 +139,3 @@ Usage~
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:
-
