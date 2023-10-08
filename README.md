@@ -106,6 +106,7 @@ Any options that are not specified when calling `setup` will take on their defau
   -- you get a minimalistic hint on the command line.
   show_hydra_hint = true,
   -- Mappings while the hydra head is active.
+  -- Any of the mappings can be set to "nil", the string! Not the value! to unamp it
   hydra_keys = {
     comment = "c",
     run = "X",
@@ -121,6 +122,11 @@ Any options that are not specified when calling `setup` will take on their defau
   repl_provider = "auto",
 }
 ```
+
+## Current limitations
+If any key gets remapped or unmapped to a different key you will need to set `show_hydra_hint`
+to `false`. See issue for more details.
+
 
 ## Dependencies
 The only REPL options are currently `iron.nvim` or `toggleterm.nvim` which are automatically detected
