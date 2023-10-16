@@ -129,7 +129,8 @@ to `false`. See issue for more details.
 
 
 ## Dependencies
-The only REPL options are currently `iron.nvim` or `toggleterm.nvim` which are automatically detected
+The only REPL options are currently [iron.nvim](https://github.com/Vigemus/iron.nvim) or
+[toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) which are automatically detected
 if installed.
 Support for others like `conjure` or `yarepl` may be added if people want them
 or are willing to send in PRs.
