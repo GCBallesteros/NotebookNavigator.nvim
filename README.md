@@ -62,7 +62,7 @@ be run (just by smashing `x`) or for less commonly used functionality.
   dependencies = {
     "echasnovski/mini.comment",
     "hkupty/iron.nvim", -- repl provider
-    -- or "akinsho/toggleterm.nvim" -- repl provider
+    -- "akinsho/toggleterm.nvim", -- alternative repl provider
     "anuvyklack/hydra.nvim",
   },
   event = "VeryLazy",
