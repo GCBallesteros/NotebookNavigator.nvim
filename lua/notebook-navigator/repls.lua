@@ -12,7 +12,7 @@ repls.toggleterm = function(start_line, end_line, repl_args)
   local trim_spaces = true
   if repl_args then
     id = repl_args.id or 1
-    trim_spaces = repl_args.trim_spaces or true
+    trim_spaces = (repl_args.trim_spaces == nil) or repl_args.trim_spaces
   end
   local current_window = vim.api.nvim_get_current_win()
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, 0)
