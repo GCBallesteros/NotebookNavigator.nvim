@@ -70,14 +70,18 @@ M.move_cell = function(dir)
 end
 
 --- Run the current cell under the cursor
-M.run_cell = function()
-  core.run_cell(cell_marker(), M.config.repl_provider)
+---
+---@param repl_args table|nil Optional config for the repl.
+M.run_cell = function(repl_args)
+  core.run_cell(cell_marker(), M.config.repl_provider, repl_args)
 end
 
 --- Run the current cell under the cursor and jump to next cell. If no next cell
 --- is available it will create one like Jupyter notebooks.
-M.run_and_move = function()
-  core.run_and_move(cell_marker(), M.config.repl_provider)
+---
+---@param repl_args table|nil Optional config for the repl.
+M.run_and_move = function(repl_args)
+  core.run_and_move(cell_marker(), M.config.repl_provider, repl_args)
 end
 
 --- Comment all the contents of the cell under the cursor
