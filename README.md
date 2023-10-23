@@ -61,6 +61,7 @@ be run (just by smashing `x`) or for less commonly used functionality.
   },
   dependencies = {
     "echasnovski/mini.comment",
+    "echasnovski/mini.hipatterns",
     "hkupty/iron.nvim", -- repl provider
     -- or "akinsho/toggleterm.nvim" -- repl provider
     "anuvyklack/hydra.nvim",
@@ -79,14 +80,24 @@ Just add it to the custom_textobjects and of you are off to the races!
 
 All you need is to add the textobject specification to the 'mini.ai' `custom_textobjects`
 
+You can also use the `minihipatterns_spec` function to add line highlighting to cell markers.
+
 ```lua
 local nn = require "notebook-navigator"
 local ai = require "mini.ai"
+local hi = require "mini.hipatterns"
 
 ai.setup(
   {
     custom_textobjects = {
       h = nn.miniai_spec,
+    },
+  }
+)
+hi.setup(
+  {
+    highlighters = {
+      cells = nn.minihipatterns_spec,
     },
   }
 )
@@ -99,8 +110,6 @@ Any options that are not specified when calling `setup` will take on their defau
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
   cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
-  -- If not `nil`, cell markers will be highlighted
-  cell_highlight_group = "CursorLineNr",
   -- If not `nil` the keymap defined in the string will activate the hydra head.
   -- If you don't want to use hydra you don't need to install it either.
   activate_hydra_keys = nil,
@@ -121,6 +130,8 @@ Any options that are not specified when calling `setup` will take on their defau
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
   repl_provider = "auto",
+  -- (Optional) for use with `mini.hipatterns` to highlight cell markers
+  cell_highlight_group = "CursorLineNr",
 }
 ```
 
@@ -135,10 +146,12 @@ Commenting cells of code depends on an external plugin. Either
 [mini.comment](https://github.com/echasnovski/mini.comment) the two most
 popular choices by quite a bit. If you want support for more PRs are welcome.
 
-Finally, 'mini.ai' is not a dependency but if you want to use the provided
+'mini.ai' is not a dependency but if you want to use the provided
 textobject specification (highly recommended) you will then need to have it
 installed.
 
+Finally, 'mini.hipatterns' is also not a dependency but can provide line
+highlighting to distinguish cell markers from the rest of the text.
 
 ## Yanking/Deleting cells
 If you setup the mini.ai integration (see below) you can then do things like,
