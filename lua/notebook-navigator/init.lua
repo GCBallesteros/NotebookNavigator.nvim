@@ -244,56 +244,9 @@ M.setup = function(config)
     activate_hydra(M.config)
   end
 
-  vim.api.nvim_create_augroup("NotebookNavigator", {clear=true})
-  if (M.config.cell_highlight_group ~= nil) then
-    local cell_ns = vim.api.nvim_create_namespace('cells')
+  --- Highlight spec for mini.hipatterns
+  M.minihipatterns_spec = highlight.minihipatterns_spec(M.config.cell_markers, M.config.cell_highlight_group)
 
-    local auto_highlight = function()
-      local cell_lines = highlight.highlight_cell_markers(cell_marker(), M.config.cell_highlight_group, cell_ns)
-      -- Note locations of markers
-      local was_marker = {}
-      for _,line_num in ipairs(cell_lines) do
-        was_marker[line_num] = true
-      end
-
-      -- Watch buffer changes for cell markers
-      vim.api.nvim_buf_attach(0, false, {
-        on_lines = function(_,_,_,start_line,_,end_line)
-          local lines = vim.api.nvim_buf_get_lines(0, start_line, end_line, 0)
-          local lua_cell_marker = "^" .. string.gsub(cell_marker(), "%%", "%%%%")
-          if lines then
-            for i,line in ipairs(lines) do
-              if string.find(line, lua_cell_marker) then
-                -- If a marker has been written -> highlight
-                highlight.highlight_cell_marker(start_line+i, M.config.cell_highlight_group, cell_ns)
-                was_marker[start_line+i] = true
-              elseif was_marker[start_line+i] then
-                -- If a marker was on this line before -> delete highlight
-                local old_marks = vim.api.nvim_buf_get_extmarks(0, cell_ns, {start_line+i-1,0}, {start_line+i,0}, {})
-                for _,mark_info in ipairs(old_marks) do
-                  vim.api.nvim_buf_del_extmark(0, cell_ns, mark_info[1])
-                end
-                was_marker[start_line+i] = false
-              else
-                -- No marker is on this line
-                was_marker[start_line+i] = false
-              end
-            end
-          end
-        end
-      })
-    end
-
-    -- Only watch buffers that have valid cell markers in config
-    vim.api.nvim_create_autocmd(
-      {"FileType"},
-      {
-        group="NotebookNavigator",
-        pattern=utils.get_valid_filetypes(M.config.cell_markers),
-        callback=auto_highlight
-      }
-    )
-  end
 end
 
 
