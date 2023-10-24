@@ -15,7 +15,13 @@ highlight.minihipatterns_spec = function(cell_markers, hl_group)
          end
       end,
       group = '',
-      extmark_opts = { line_hl_group = hl_group, hl_eol = true}
+      extmark_opts = {
+        virt_text = {
+          {"───────────────────────────────────────────────────────────────", hl_group},
+        },
+        line_hl_group = hl_group,
+        hl_eol = true,
+      }
     }
   return notebook_cells
 end

@@ -132,7 +132,7 @@ Any options that are not specified when calling `setup` will take on their defau
   -- or "auto" which checks which of the above are installed
   repl_provider = "auto",
   -- (Optional) for use with `mini.hipatterns` to highlight cell markers
-  cell_highlight_group = "CursorLineNr",
+  cell_highlight_group = "Folded",
 }
 ```
 
