@@ -20,8 +20,8 @@ Notebook Navigator comes with the following functions and features:
 
 This plugin also pairs really well with tools like Jupytext that allow you to
 convert easily between `ipynb` and `py` files. For this you may want to use a
-plugin such as [jupytext.vim](GCBallesteros/jupytext.vim)  (my fork with some
-extras) or the [original repo](goerz/jupytext.vim).
+plugin such as [jupytext.vim](https://github.com/GCBallesteros/jupytext.vim)  (my fork with some
+extras) or the [original repo](https://github.com/goerz/jupytext.vim).
 
 ![notebook-navigator](assets/notebook_navigator.gif)
 
@@ -62,7 +62,7 @@ be run (just by smashing `x`) or for less commonly used functionality.
   dependencies = {
     "echasnovski/mini.comment",
     "hkupty/iron.nvim", -- repl provider
-    -- or "akinsho/toggleterm.nvim" -- repl provider
+    -- "akinsho/toggleterm.nvim", -- alternative repl provider
     "anuvyklack/hydra.nvim",
   },
   event = "VeryLazy",
@@ -106,6 +106,7 @@ Any options that are not specified when calling `setup` will take on their defau
   -- you get a minimalistic hint on the command line.
   show_hydra_hint = true,
   -- Mappings while the hydra head is active.
+  -- Any of the mappings can be set to "nil", the string! Not the value! to unamp it
   hydra_keys = {
     comment = "c",
     run = "X",
@@ -122,8 +123,14 @@ Any options that are not specified when calling `setup` will take on their defau
 }
 ```
 
+## Current limitations
+If any key gets remapped or unmapped to a different key you will need to set `show_hydra_hint`
+to `false`. See issue for more details.
+
+
 ## Dependencies
-The only REPL options are currently `iron.nvim` or `toggleterm.nvim` which are automatically detected
+The only REPL options are currently [iron.nvim](https://github.com/Vigemus/iron.nvim) or
+[toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) which are automatically detected
 if installed.
 Support for others like `conjure` or `yarepl` may be added if people want them
 or are willing to send in PRs.

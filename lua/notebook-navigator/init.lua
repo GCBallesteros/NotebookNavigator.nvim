@@ -116,14 +116,18 @@ M.toggle_markdown = function()
 end
 
 --- Run the current cell under the cursor
-M.run_cell = function()
-  core.run_cell(cell_marker(), M.config.repl_provider)
+---
+---@param repl_args table|nil Optional config for the repl.
+M.run_cell = function(repl_args)
+  core.run_cell(cell_marker(), M.config.repl_provider, repl_args)
 end
 
 --- Run the current cell under the cursor and jump to next cell. If no next cell
 --- is available it will create one like Jupyter notebooks.
-M.run_and_move = function()
-  core.run_and_move(cell_marker(), M.config.repl_provider)
+---
+---@param repl_args table|nil Optional config for the repl.
+M.run_and_move = function(repl_args)
+  core.run_and_move(cell_marker(), M.config.repl_provider, repl_args)
 end
 
 --- Run all cells in the file
@@ -176,6 +180,123 @@ _f_: run all cells _e_: run cells above _E_: run cell and all below
 ]]
 
 local function activate_hydra(config)
+  -- `hydra_heads` contains all the potential actions that our hydra will be able
+  -- to execute. After these definitions the list will get filtered down by checking
+  -- if the mapped key is nil
+  local hydra_heads = {
+    {
+      config.hydra_keys.move_up,
+      function()
+        M.move_cell "u"
+      end,
+      { desc = "Move up" },
+    },
+    {
+      config.hydra_keys.move_down,
+      function()
+        M.move_cell "d"
+      end,
+      { desc = "Move down" },
+    },
+    {
+      config.hydra_keys.merge_up,
+      function()
+        M.merge_cell "u"
+      end,
+      { desc = "Merge up" },
+    },
+    {
+      config.hydra_keys.merge_down,
+      function()
+        M.merge_cell "d"
+      end,
+      { desc = "Merge down" },
+    },
+    {
+      config.hydra_keys.swap_up,
+      function()
+        M.swap_cell "u"
+      end,
+      { desc = "Swap up" },
+    },
+    {
+      config.hydra_keys.swap_down,
+      function()
+        M.swap_cell "d"
+      end,
+      { desc = "Swap down" },
+    },
+    {
+      config.hydra_keys.split,
+      M.split_cell,
+      { desc = "Split" },
+    },
+    {
+      config.hydra_keys.delete,
+      M.delete_cell,
+      { desc = "Delete" },
+    },
+    {
+      config.hydra_keys.duplicate,
+      M.duplicate_cell,
+      { desc = "Duplicate" },
+    },
+    {
+      config.hydra_keys.toggle_markdown,
+      M.toggle_markdown,
+      { desc = "Toggle markdown" },
+    },
+    {
+      config.hydra_keys.comment,
+      M.comment_cell,
+      { desc = "Comment" },
+    },
+    {
+      config.hydra_keys.run,
+      M.run_cell,
+      { desc = "Run", nowait = true },
+    },
+    {
+      config.hydra_keys.run_and_move,
+      M.run_and_move,
+      { desc = "Run & Move", nowait = true },
+    },
+    {
+      config.hydra_keys.run_all_cells,
+      M.run_all_cells,
+      { desc = "Run all cells", nowait = true },
+    },
+    {
+      config.hydra_keys.run_cells_above,
+      M.run_cells_above,
+      { desc = "Run all cells above", nowait = true },
+    },
+    {
+      config.hydra_keys.run_cells_below,
+      M.run_cells_below,
+      { desc = "Run cell and all below", nowait = true },
+    },
+    {
+      config.hydra_keys.add_cell_after,
+      M.add_cell_after,
+      { desc = "Add cell after", nowait = true },
+    },
+    {
+      config.hydra_keys.add_cell_before,
+      M.add_cell_before,
+      { desc = "Add cell after", nowait = true },
+    },
+    { "q", nil, { exit = true, nowait = true, desc = "exit" } },
+    { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
+  }
+
+  local active_hydra_heads = {}
+  for _, h in ipairs(hydra_heads) do
+    if h[1] ~= "nil" then
+      table.insert(active_hydra_heads, h)
+    end
+  end
+
   local hydra_config = {
     name = "NotebookNavigator",
     mode = { "n" },
@@ -185,112 +306,7 @@ local function activate_hydra(config)
       hint = { border = "rounded" },
     },
     body = config.activate_hydra_keys,
-    heads = {
-      {
-        config.hydra_keys.move_up,
-        function()
-          M.move_cell "u"
-        end,
-        { desc = "Move up" },
-      },
-      {
-        config.hydra_keys.move_down,
-        function()
-          M.move_cell "d"
-        end,
-        { desc = "Move down" },
-      },
-      {
-        config.hydra_keys.merge_up,
-        function()
-          M.merge_cell "u"
-        end,
-        { desc = "Merge up" },
-      },
-      {
-        config.hydra_keys.merge_down,
-        function()
-          M.merge_cell "d"
-        end,
-        { desc = "Merge down" },
-      },
-      {
-        config.hydra_keys.swap_up,
-        function()
-          M.swap_cell "u"
-        end,
-        { desc = "Swap up" },
-      },
-      {
-        config.hydra_keys.swap_down,
-        function()
-          M.swap_cell "d"
-        end,
-        { desc = "Swap down" },
-      },
-      {
-        config.hydra_keys.split,
-        M.split_cell,
-        { desc = "Split" },
-      },
-      {
-        config.hydra_keys.delete,
-        M.delete_cell,
-        { desc = "Delete" },
-      },
-      {
-        config.hydra_keys.duplicate,
-        M.duplicate_cell,
-        { desc = "Duplicate" },
-      },
-      {
-        config.hydra_keys.toggle_markdown,
-        M.toggle_markdown,
-        { desc = "Toggle markdown" },
-      },
-      {
-        config.hydra_keys.comment,
-        M.comment_cell,
-        { desc = "Comment" },
-      },
-      {
-        config.hydra_keys.run,
-        M.run_cell,
-        { desc = "Run", nowait = true },
-      },
-      {
-        config.hydra_keys.run_and_move,
-        M.run_and_move,
-        { desc = "Run & Move", nowait = true },
-      },
-      {
-        config.hydra_keys.run_all_cells,
-        M.run_all_cells,
-        { desc = "Run all cells", nowait = true },
-      },
-      {
-        config.hydra_keys.run_cells_above,
-        M.run_cells_above,
-        { desc = "Run all cells above", nowait = true },
-      },
-      {
-        config.hydra_keys.run_cells_below,
-        M.run_cells_below,
-        { desc = "Run cell and all below", nowait = true },
-      },
-      {
-        config.hydra_keys.add_cell_after,
-        M.add_cell_after,
-        { desc = "Add cell after", nowait = true },
-      },
-      {
-        config.hydra_keys.add_cell_before,
-        M.add_cell_before,
-        { desc = "Add cell after", nowait = true },
-      },
-      { "q", nil, { exit = true, nowait = true, desc = "exit" } },
-      { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
-    },
+    heads = active_hydra_heads,
   }
   if config.show_hydra_hint then
     hydra_config.hint = hydra_hint
@@ -341,6 +357,8 @@ M.config = {
 
 --- Module setup
 ---
+--- Any of the `hydra_keys` mappings can be set to `nil` in order to stop them
+--- from being mapped.
 ---@param config table|nil Module config table. See |NotebookNavigator.config|.
 ---
 ---@usage `require('cell-navigator').setup({})` (replace `{}` with your `config` table)
