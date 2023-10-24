@@ -98,7 +98,7 @@ Any options that are not specified when calling `setup` will take on their defau
 {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
-  cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
+  cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%", r = "# %%", matlab = "% %%" },
   -- If not `nil` the keymap defined in the string will activate the hydra head.
   -- If you don't want to use hydra you don't need to install it either.
   activate_hydra_keys = nil,
