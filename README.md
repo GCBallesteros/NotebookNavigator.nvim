@@ -120,6 +120,9 @@ Any options that are not specified when calling `setup` will take on their defau
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
   repl_provider = "auto",
+  -- If `true`, folding will be based on expression for buffers with a valid
+  -- cell marker and cells will be folded on entering the buffer
+  cell_folding = true
 }
 ```
 
