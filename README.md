@@ -44,7 +44,7 @@ print("This is the last cell!")
 
 
 ## Installation
-Here is my [lazy.nvim](https://github.com/folke/lazy.nvim) specification for Notebook
+Here is my [lazy.nvim](https://www.github.com/folke/lazy.nvim) specification for Notebook
 Navigator.
 
 I personally like to have the moving between cell commands and cell executing functions
@@ -74,34 +74,39 @@ be run (just by smashing `x`) or for less commonly used functionality.
 }
 ```
 
-## Mini.ai integration
-The `miniai_spec` function is also a valid mini.ai textobject specification.
-Just add it to the custom_textobjects and of you are off to the races!
-
-All you need is to add the textobject specification to the 'mini.ai' `custom_textobjects`
-
-You can also use the `minihipatterns_spec` function to add line highlighting to cell markers.
+## Enabling Mini.hipatterns cell highlighting
+The lines delimiting the code cells can have pretty highlighting if you install 
+[mini.hipatterns](https://github.com/echasnovski/mini.hipatterns). To activate them you will
+have to add an entry into the `highlighters` option of 'mini.hipatterns'. If you are using
+[lazy.nvim](https//www.github.com/folke/lazy.nvim) `minihipatterns_spec` and your __only__
+configuration was meant to activate cell highlighting then your 'mini.hipatterns' could
+look like:
 
 ```lua
-local nn = require "notebook-navigator"
-local ai = require "mini.ai"
-local hi = require "mini.hipatterns"
-
-ai.setup(
-  {
-    custom_textobjects = {
-      h = nn.miniai_spec,
-    },
-  }
-)
-hi.setup(
-  {
-    highlighters = {
-      cells = nn.minihipatterns_spec,
-    },
-  }
-)
+return {
+  "echasnovski/mini.hipatterns",
+  event = "VeryLazy",
+  dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
+  opts = { highlighters = { cells = nn.minihipatterns_spec } },
+}
 ```
+
+
+## Mini.ai integration
+The `miniai_spec` function is also a valid mini.ai textobject specification.
+All you need to do to add it is to add the `custom_textobjects`  to your 'mini.ai' setup. If you
+are using [layz.nvim](https://www.github.com/folke/lazy.nvim) and your __only__ configuration was
+meant include the _code cell_ text object then your 'mini.ai' could look like:
+
+```lua
+return {
+  "echasnovski/mini.ai",
+  event = "VeryLazy",
+  dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
+  opts = { custom_textobjects = { h = nn.miniai_spec } },
+}
+```
+
 
 ## Detailed configuration
 Any options that are not specified when calling `setup` will take on their default values.
@@ -109,7 +114,7 @@ Any options that are not specified when calling `setup` will take on their defau
 {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
-  cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%", r = "# %%", matlab = "% %%" },
+  cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
   -- If not `nil` the keymap defined in the string will activate the hydra head.
   -- If you don't want to use hydra you don't need to install it either.
   activate_hydra_keys = nil,
