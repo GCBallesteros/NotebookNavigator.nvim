@@ -61,7 +61,6 @@ be run (just by smashing `x`) or for less commonly used functionality.
   },
   dependencies = {
     "echasnovski/mini.comment",
-    "echasnovski/mini.hipatterns",
     "hkupty/iron.nvim", -- repl provider
     -- "akinsho/toggleterm.nvim", -- alternative repl provider
     "anuvyklack/hydra.nvim",
