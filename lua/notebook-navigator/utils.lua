@@ -14,7 +14,7 @@ end
 
 utils.get_valid_filetypes = function(cell_markers)
   local valid_filetypes = {}
-  for k,_ in pairs(cell_markers) do
+  for k, _ in pairs(cell_markers) do
     table.insert(valid_filetypes, k)
   end
   return valid_filetypes
