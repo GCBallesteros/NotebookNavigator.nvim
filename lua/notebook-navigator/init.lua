@@ -191,7 +191,14 @@ end
 M.config = {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
-  cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%", r = "# %%", matlab = "% %%" },
+  cell_markers = {
+    python = "# %%",
+    lua = "-- %%",
+    julia = "# %%",
+    fennel = ";; %%",
+    r = "# %%",
+    matlab = "% %%",
+  },
   -- If not `nil` the keymap defined in the string will activate the hydra head
   activate_hydra_keys = nil,
   -- If `true` a hint panel will be shown when the hydra head is active
@@ -264,8 +271,6 @@ M.setup = function(config)
 
   --- Highlight spec for mini.hipatterns
   M.minihipatterns_spec = highlight.minihipatterns_spec(M.config.cell_markers, M.config.cell_highlight_group)
-
 end
-
 
 return M
