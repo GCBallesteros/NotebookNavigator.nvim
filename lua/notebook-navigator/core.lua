@@ -28,19 +28,6 @@ M.miniai_spec = function(opts, cell_marker)
   return { from = from, to = to }
 end
 
-M.all_cell_positions = function(cell_marker)
-  local vim_cmd = vim.api.nvim_parse_cmd("ilist! /^"..cell_marker.."/", {})
-  vim_cmd.args = {table.concat(vim_cmd.args, " ")} -- Fix space in args (if multiple)
-  local has_output, cmd_output = pcall(vim.api.nvim_cmd, vim_cmd, {output=true})
-  local cell_lines = {}
-  if has_output then
-    for k,_ in string.gmatch(cmd_output, "%s%d+%s") do
-      table.insert(cell_lines,tonumber(k))
-    end
-  end
-  return cell_lines
-end
-
 M.move_cell = function(dir, cell_marker)
   local search_res
   local result
