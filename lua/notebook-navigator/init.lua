@@ -37,6 +37,7 @@ local got_toggleterm, _ = pcall(require, "toggleterm")
 local got_hydra, hydra = pcall(require, "hydra")
 
 local core = require "notebook-navigator.core"
+local highlight = require "notebook-navigator.highlight"
 local utils = require "notebook-navigator.utils"
 
 local cell_marker = function()
@@ -209,6 +210,8 @@ M.config = {
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
   repl_provider = "auto",
+  -- (Optional) for use with `mini.hipatterns` to highlight cell markers
+  cell_highlight_group = "Folded",
 }
 --minidoc_afterlines_end
 
@@ -258,6 +261,11 @@ M.setup = function(config)
   if (M.config.activate_hydra_keys ~= nil) and got_hydra then
     activate_hydra(M.config)
   end
+
+  --- Highlight spec for mini.hipatterns
+  M.minihipatterns_spec = highlight.minihipatterns_spec(M.config.cell_markers, M.config.cell_highlight_group)
+
 end
+
 
 return M
