@@ -264,8 +264,6 @@ M.setup = function(config)
 
   local cell_group = vim.api.nvim_create_augroup("Cells", {clear=true})
   if M.config.cell_folding then
-    local foldm = vim.o.foldmethod
-    vim.cmd[[set nofoldenable]]
     vim.api.nvim_create_autocmd("BufEnter", {
       pattern = {"*"},
       group = cell_group,
@@ -274,17 +272,10 @@ M.setup = function(config)
         if M.config.cell_markers[ft] then
           local marker = M.config.cell_markers[ft]
           local vim_marker = string.gsub(marker, " ", "\\ ")
-          local expr = "set foldexpr=(getline(v:lnum)=~'^"..vim_marker.."')==0"
-          vim.cmd[[set foldmethod=expr]]
+          vim.cmd[[setlocal foldmethod=expr]]
+          local expr = "setlocal foldexpr=(getline(v:lnum)=~'^"..vim_marker.."')==0"
           vim.cmd(expr)
         end
-      end
-    })
-    vim.api.nvim_create_autocmd("BufLeave", {
-      pattern = {"*"},
-      group = cell_group,
-      callback = function()
-        vim.cmd("set foldmethod="..foldm)
       end
     })
   end
