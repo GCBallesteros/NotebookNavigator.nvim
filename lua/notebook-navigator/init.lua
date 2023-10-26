@@ -211,6 +211,7 @@ M.config = {
   repl_provider = "auto",
   -- If `true`, folding will be based on expression for buffers with a valid
   -- cell marker and cells will be folded on entering the buffer
+  -- * NOTE: This will replace any previously set foldmethod for those buffers
   cell_folding = true
 }
 --minidoc_afterlines_end

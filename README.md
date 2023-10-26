@@ -122,6 +122,7 @@ Any options that are not specified when calling `setup` will take on their defau
   repl_provider = "auto",
   -- If `true`, folding will be based on expression for buffers with a valid
   -- cell marker and cells will be folded on entering the buffer
+  -- * NOTE: This will replace any previously set foldmethod for those buffers
   cell_folding = true
 }
 ```
