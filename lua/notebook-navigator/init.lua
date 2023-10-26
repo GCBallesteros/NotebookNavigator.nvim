@@ -277,20 +277,7 @@ M.setup = function(config)
 
   -- Apply syntax highlight rule for cell markers
   if M.config.syntax_highlight and M.config.cell_highlight_group ~= nil then
-    vim.api.nvim_create_augroup("NotebookNavigator", { clear = true })
-
-    -- Create autocmd for every language
-    for ft, marker in pairs(M.config.cell_markers) do
-      local syntax_rule = [[ /^\s*]] .. marker .. [[.*$/]]
-      local syntax_cmd = "syntax match CodeCell" .. syntax_rule
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = ft,
-        group = "NotebookNavigator",
-        command = syntax_cmd,
-      })
-    end
-    vim.api.nvim_set_hl(0, "CodeCell", { link = M.config.cell_highlight_group })
-    vim.api.nvim_exec_autocmds("FileType", { group = "NotebookNavigator" })
+    highlight.setup_autocmd_syntax_highlights(M.config.cell_markers, M.config.cell_highlight_group)
   end
 end
 

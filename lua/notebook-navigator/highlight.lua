@@ -29,4 +29,21 @@ highlight.minihipatterns_spec = function(cell_markers, hl_group)
   return notebook_cells
 end
 
+highlight.setup_autocmd_syntax_highlights = function(cell_markers, hl_group)
+  vim.api.nvim_create_augroup("NotebookNavigator", { clear = true })
+
+  -- Create autocmd for every language
+  for ft, marker in pairs(cell_markers) do
+    local syntax_rule = [[ /^\s*]] .. marker .. [[.*$/]]
+    local syntax_cmd = "syntax match CodeCell" .. syntax_rule
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = ft,
+      group = "NotebookNavigator",
+      command = syntax_cmd,
+    })
+  end
+  vim.api.nvim_set_hl(0, "CodeCell", { link = hl_group })
+  vim.api.nvim_exec_autocmds("FileType", { group = "NotebookNavigator" })
+end
+
 return highlight
