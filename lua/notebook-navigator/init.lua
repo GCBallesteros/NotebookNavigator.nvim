@@ -217,8 +217,8 @@ M.config = {
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
   repl_provider = "auto",
-  -- Syntax based highlighting. Poor man's solution if you don't want to install
-  -- mini.hipatterns
+  -- Syntax based highlighting. If you don't want to install mini.hipattners or
+  -- enjoy a more minimalistic look
   syntax_highlight = true,
   -- (Optional) for use with `mini.hipatterns` to highlight cell markers
   cell_highlight_group = "Folded",
