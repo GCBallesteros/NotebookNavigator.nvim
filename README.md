@@ -16,6 +16,7 @@ Notebook Navigator comes with the following functions and features:
   specification that you can use standalone
 - A [Hydra](https://github.com/anuvyklack/hydra.nvim) mode to quickly manipulate and run
   cells
+- Code cell marker highlighting
 - Support for multiple languages. Notebooks are not just for Pythonistas!
 
 This plugin also pairs really well with tools like Jupytext that allow you to
@@ -95,6 +96,9 @@ return {
 }
 ```
 
+If you are after a more simple solution that doesn't require new plugins and looks
+more minimal just set the `syntax_highlight` option to `true`.
+
 
 ## Mini.ai integration
 The `miniai_spec` function is also a valid mini.ai textobject specification.
@@ -123,7 +127,14 @@ Any options that are not specified when calling `setup` will take on their defau
 {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
-  cell_markers = { python = "# %%", lua = "-- %%", julia = "# %%", fennel = ";; %%" },
+  cell_markers = {
+    python = "# %%",
+    lua = "-- %%",
+    julia = "# %%",
+    fennel = ";; %%",
+    r = "# %%",
+    matlab = "% %%",
+  },
   -- If not `nil` the keymap defined in the string will activate the hydra head.
   -- If you don't want to use hydra you don't need to install it either.
   activate_hydra_keys = nil,
@@ -145,6 +156,9 @@ Any options that are not specified when calling `setup` will take on their defau
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
   repl_provider = "auto",
+  -- Syntax based highlighting. If you don't want to install mini.hipattners or
+  -- enjoy a more minimalistic look
+  syntax_highlight = false,
   -- (Optional) for use with `mini.hipatterns` to highlight cell markers
   cell_highlight_group = "Folded",
 }
