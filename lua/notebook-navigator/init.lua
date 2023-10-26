@@ -217,6 +217,9 @@ M.config = {
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
   repl_provider = "auto",
+  -- Syntax based highlighting. Poor man's solution if you don't want to install
+  -- mini.hipatterns
+  syntax_highlight = true,
   -- (Optional) for use with `mini.hipatterns` to highlight cell markers
   cell_highlight_group = "Folded",
 }
@@ -271,6 +274,24 @@ M.setup = function(config)
 
   --- Highlight spec for mini.hipatterns
   M.minihipatterns_spec = highlight.minihipatterns_spec(M.config.cell_markers, M.config.cell_highlight_group)
+
+  -- Apply syntax highlight rule for cell markers
+  if M.config.syntax_highlight and M.config.cell_highlight_group ~= nil then
+    vim.api.nvim_create_augroup("NotebookNavigator", { clear = true })
+
+    -- Create autocmd for every language
+    for ft, marker in pairs(M.config.cell_markers) do
+      local syntax_rule = [[ /^\s*]] .. marker .. [[.*$/]]
+      local syntax_cmd = "syntax match CodeCell" .. syntax_rule
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = ft,
+        group = "NotebookNavigator",
+        command = syntax_cmd,
+      })
+    end
+    vim.api.nvim_set_hl(0, "CodeCell", { link = M.config.cell_highlight_group })
+    vim.api.nvim_exec_autocmds("FileType", { group = "NotebookNavigator" })
+  end
 end
 
 return M
