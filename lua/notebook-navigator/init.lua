@@ -219,7 +219,7 @@ M.config = {
   repl_provider = "auto",
   -- Syntax based highlighting. If you don't want to install mini.hipattners or
   -- enjoy a more minimalistic look
-  syntax_highlight = true,
+  syntax_highlight = false,
   -- (Optional) for use with `mini.hipatterns` to highlight cell markers
   cell_highlight_group = "Folded",
 }
