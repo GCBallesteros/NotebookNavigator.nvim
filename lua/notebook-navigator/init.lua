@@ -38,6 +38,7 @@ local got_hydra, hydra = pcall(require, "hydra")
 
 local core = require "notebook-navigator.core"
 local utils = require "notebook-navigator.utils"
+local folding = require "notebook-navigator.folding"
 
 local cell_marker = function()
   return utils.get_cell_marker(0, M.config.cell_markers)
@@ -212,7 +213,7 @@ M.config = {
   -- If `true`, folding will be based on expression for buffers with a valid
   -- cell marker and cells will be folded on entering the buffer
   -- * NOTE: This will replace any previously set foldmethod for those buffers
-  cell_folding = true
+  cell_folding = true,
 }
 --minidoc_afterlines_end
 
@@ -263,23 +264,23 @@ M.setup = function(config)
     activate_hydra(M.config)
   end
 
-  local cell_group = vim.api.nvim_create_augroup("Cells", {clear=true})
-  if M.config.cell_folding then
-    vim.api.nvim_create_autocmd("BufEnter", {
-      pattern = {"*"},
-      group = cell_group,
-      callback = function(ev)
-        local ft = vim.api.nvim_get_option_value("filetype", {buf = ev.buf})
-        if M.config.cell_markers[ft] then
-          local marker = M.config.cell_markers[ft]
-          local vim_marker = string.gsub(marker, " ", "\\ ")
-          vim.cmd[[setlocal foldmethod=expr]]
-          local expr = "setlocal foldexpr=(getline(v:lnum)=~'^"..vim_marker.."')==0"
-          vim.cmd(expr)
-        end
+  -- make it global for now
+  notebook_navigator_foldexpr = folding.create_foldexpr_function "^# %%"
+
+  local folding_au_group = vim.api.nvim_create_augroup("NotebookNavigatorCellFolding", { clear = true })
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = { "*" },
+    group = folding_au_group,
+    callback = function(ev)
+      local ft = vim.api.nvim_get_option_value("filetype", { buf = ev.buf })
+      if M.config.cell_markers[ft] then
+        -- should use setlocal
+        vim.cmd [[set foldmethod=expr]]
+        vim.cmd [[set foldexpr=v:lua.notebook_navigator_foldexpr(v:lnum)]]
       end
-    })
-  end
+    end,
+  })
 end
+-- should have a BufLeave too to restore things
 
 return M
