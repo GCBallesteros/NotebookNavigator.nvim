@@ -127,13 +127,10 @@ Any options that are not specified when calling `setup` will take on their defau
 {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
+  -- By default, uses language-specific double percent comments like `# %%`.
+  -- This can be overridden for each language with this setting.
   cell_markers = {
-    python = "# %%",
-    lua = "-- %%",
-    julia = "# %%",
-    fennel = ";; %%",
-    r = "# %%",
-    matlab = "% %%",
+    -- python = "# %%",
   },
   -- If not `nil` the keymap defined in the string will activate the hydra head.
   -- If you don't want to use hydra you don't need to install it either.

@@ -191,14 +191,12 @@ end
 M.config = {
   -- Code cell marker. Cells start with the marker and end either at the beginning
   -- of the next cell or at the end of the file.
+  -- By default, uses language-specific double percent comments like `# %%`.
+  -- This can be overridden for each language with this setting.
   cell_markers = {
-    python = "# %%",
-    lua = "-- %%",
-    julia = "# %%",
-    fennel = ";; %%",
-    r = "# %%",
-    matlab = "% %%",
+    -- python = "# %%",
   },
+
   -- If not `nil` the keymap defined in the string will activate the hydra head
   activate_hydra_keys = nil,
   -- If `true` a hint panel will be shown when the hydra head is active
