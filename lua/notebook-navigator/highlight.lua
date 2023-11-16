@@ -1,12 +1,12 @@
 local core = require "notebook-navigator.core"
+local utils = require "notebook-navigator.utils"
 
 local highlight = {}
 
 highlight.minihipatterns_spec = function(cell_markers, hl_group)
   local notebook_cells = {
     pattern = function(buf_id)
-      local buf_ft = vim.bo[buf_id].filetype
-      local cell_marker = cell_markers[buf_ft]
+      local cell_marker = utils.get_cell_marker(buf_id, cell_markers)
       if cell_marker then
         local regex_cell_marker = string.gsub("^" .. cell_marker, "%%", "%%%%")
         return regex_cell_marker
