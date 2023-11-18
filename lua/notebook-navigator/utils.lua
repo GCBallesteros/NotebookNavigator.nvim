@@ -4,7 +4,7 @@ utils.get_cell_marker = function(bufnr, cell_markers)
   local ft = vim.bo[bufnr].filetype
 
   if ft == nil or ft == "" then
-    error "Empty filetype"
+    print "[NotebookNavigator] utils.lua: Empty filetype"
   end
 
   local user_opt_cell_marker = cell_markers[ft]
@@ -19,14 +19,6 @@ utils.get_cell_marker = function(bufnr, cell_markers)
   end
   local double_percent_cell_marker = vim.bo.commentstring:format "%%"
   return double_percent_cell_marker
-end
-
-utils.get_valid_filetypes = function(cell_markers)
-  local valid_filetypes = {}
-  for k, _ in pairs(cell_markers) do
-    table.insert(valid_filetypes, k)
-  end
-  return valid_filetypes
 end
 
 local find_supported_repls = function()
