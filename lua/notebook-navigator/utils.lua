@@ -29,4 +29,22 @@ utils.get_valid_filetypes = function(cell_markers)
   return valid_filetypes
 end
 
+local find_supported_repls = function()
+  local supported_repls = {
+    { name = "iron", module = "iron" },
+    { name = "toggleterm", module = "toggleterm" },
+  }
+
+  local available_repls = {}
+  for _, repl in pairs(supported_repls) do
+    if pcall(require, repl.module) then
+      available_repls[#available_repls + 1] = repl.name
+    end
+  end
+
+  return available_repls
+end
+
+utils.available_repls = find_supported_repls()
+
 return utils

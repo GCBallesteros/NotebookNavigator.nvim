@@ -1,5 +1,7 @@
 local repls = {}
 
+utils = require "notebook-navigator.utils"
+
 -- iron.nvim
 repls.iron = function(start_line, end_line, repl_args)
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, 0)
@@ -37,22 +39,23 @@ end
 repls.no_repl = function(_) end
 
 local get_repl = function(repl_provider)
-  local repl_providers = { "iron", "toggleterm" }
+  local available_repls = utils.available_repls
+  local chosen_repl = nil
   if repl_provider == "auto" then
-    for _, r in ipairs(repl_providers) do
-      if pcall(require, r) then
-        return repls[r]
-      end
-      vim.notify "[Notebook Navigator] None of the supported REPL providers is available. Please install iron or toggleterm"
+    for _, r in ipairs(available_repls) do
+      chosen_repl = repls[r]
     end
   else
-    if pcall(require, repl_provider) then
-      return repls[repl_provider]
-    else
-      vim.notify("[Notebook Navigator] The " .. repl_provider .. " REPL provider is not available.")
-    end
+    chosen_repl = repls[repl_provider]
   end
-  return repls["no_repl"]
+
+  -- Check if we actuall got out a supported repl
+  if chosen_repl == nil then
+    vim.notify("[NotebookNavigator] The provided repl, " .. repl_provider .. ", is not supported.")
+    chosen_repl = repls["no_repl"]
+  end
+
+  return chosen_repl
 end
 
 return get_repl
