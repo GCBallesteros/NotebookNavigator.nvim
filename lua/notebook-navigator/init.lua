@@ -32,8 +32,6 @@
 
 local M = {}
 
-local got_iron, _ = pcall(require, "iron.core")
-local got_toggleterm, _ = pcall(require, "toggleterm")
 local got_hydra, hydra = pcall(require, "hydra")
 
 local core = require "notebook-navigator.core"
@@ -262,8 +260,8 @@ M.setup = function(config)
     vim.notify "[NotebookNavigator] Hydra is not available.\nHydra will not be available."
   end
 
-  if not got_iron and not got_toggleterm then
-    vim.notify "[NotebookNavigator] REPL is not available.\nMost functionality will error out."
+  if #utils.available_repls == 0 then
+    vim.notify "[NotebookNavigator] No supported REPLs available.\nMost functionality will error out."
   end
 
   if (M.config.activate_hydra_keys ~= nil) and got_hydra then
