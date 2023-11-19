@@ -21,6 +21,7 @@
 --- - Run cells (with and without jumping to the next one)
 --- - Create cells above/below the current one
 --- - Comment whole cells
+--- - Split cells
 --- - A mini.ai textobject specification that you can use standalone
 --- - A Hydra mode to quickly manipulate and run cells
 --- - Support for multiple languages
@@ -113,10 +114,15 @@ M.add_cell_above = function()
   core.add_cell_above(cell_marker())
 end
 
+--- Spit the cell at the current position by inserting a cell marker
+M.split_cell = function()
+  core.split_cell(cell_marker())
+end
+
 local hydra_hint = [[
-_j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell above/below
-_x_: run & move down ^^          _X_: run
-^^                _<esc>_/_q_: exit
+ _j_/_k_: move down/up   _c_: comment     _a_/_b_: add cell above/below
+_x_: run & move down  _s_: split cell   _X_: run
+                    _<esc>_/_q_: exit
 ]]
 
 local function activate_hydra(config)
@@ -162,6 +168,11 @@ local function activate_hydra(config)
       config.hydra_keys.add_cell_before,
       M.add_cell_above,
       { desc = "Add cell above", nowait = true },
+    },
+    {
+      config.hydra_keys.split_cell,
+      M.split_cell,
+      { desc = "Split cell", nowait = true },
     },
     { "q", nil, { exit = true, nowait = true, desc = "exit" } },
     { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
@@ -218,6 +229,7 @@ M.config = {
     move_down = "j",
     add_cell_before = "a",
     add_cell_after = "b",
+    split_cell = "s",
   },
   -- The repl plugin with which to interface
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,

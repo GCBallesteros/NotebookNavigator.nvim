@@ -10,7 +10,8 @@ functionality and more!
 Notebook Navigator comes with the following functions and features:
 - Jump up/down between cells
 - Run cells (with and without jumping to the next one)
-- Create cells before/after the current one
+- Create cells above/below the current one
+- Split cells
 - Comment whole cells
 - A [mini.ai](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md) textobject
   specification that you can use standalone
