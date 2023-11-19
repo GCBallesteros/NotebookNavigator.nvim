@@ -118,4 +118,10 @@ M.add_cell_after = function(cell_marker)
   M.add_cell_below(cell_marker)
 end
 
+M.split_cell = function(cell_marker)
+  local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+  vim.api.nvim_buf_set_lines(0, cursor_line - 1, cursor_line - 1, false, { cell_marker })
+  vim.api.nvim_win_set_cursor(0, { cursor_line + 1, 0 })
+end
+
 return M
