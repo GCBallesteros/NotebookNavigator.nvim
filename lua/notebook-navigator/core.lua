@@ -86,7 +86,14 @@ M.comment_cell = function(cell_marker)
   commenter(cell_object)
 end
 
-M.add_cell_before = function(cell_marker)
+M.add_cell_below = function(cell_marker)
+  local cell_object = M.miniai_spec("a", cell_marker)
+
+  vim.api.nvim_buf_set_lines(0, cell_object.to.line, cell_object.to.line, false, { cell_marker, "" })
+  M.move_cell("d", cell_marker)
+end
+
+M.add_cell_above = function(cell_marker)
   local cell_object = M.miniai_spec("a", cell_marker)
 
   -- What to do on malformed notebooks? I.e. with no upper cell marker? are they malformed?
@@ -101,11 +108,14 @@ M.add_cell_before = function(cell_marker)
   M.move_cell("u", cell_marker)
 end
 
-M.add_cell_after = function(cell_marker)
-  local cell_object = M.miniai_spec("a", cell_marker)
+-- We keep this two for backwards compatibility but the prefered way is to use
+-- the above/below functions for consistency with jupyter nomenclature
+M.add_cell_before = function(cell_marker)
+  M.add_cell_above(cell_marker)
+end
 
-  vim.api.nvim_buf_set_lines(0, cell_object.to.line, cell_object.to.line, false, { cell_marker, "" })
-  M.move_cell("d", cell_marker)
+M.add_cell_after = function(cell_marker)
+  M.add_cell_below(cell_marker)
 end
 
 return M

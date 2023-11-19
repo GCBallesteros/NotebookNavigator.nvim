@@ -21,7 +21,7 @@ implicit cell marker before it.
 # What comes bundled?~
 - Jump up/down between cells
 - Run cells (with and without jumping to the next one)
-- Create cells before/after the current one
+- Create cells above/below the current one
 - Comment whole cells
 - A mini.ai textobject specification that you can use standalone
 - A Hydra mode to quickly manipulate and run cells
