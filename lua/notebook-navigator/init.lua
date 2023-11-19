@@ -19,7 +19,7 @@
 --- # What comes bundled?~
 --- - Jump up/down between cells
 --- - Run cells (with and without jumping to the next one)
---- - Create cells before/after the current one
+--- - Create cells above/below the current one
 --- - Comment whole cells
 --- - A mini.ai textobject specification that you can use standalone
 --- - A Hydra mode to quickly manipulate and run cells
@@ -93,18 +93,28 @@ M.comment_cell = function()
   core.comment_cell(cell_marker())
 end
 
---- Create a cell under the current one and move to it
+--- [Deprecated] Create a cell under the current one and move to it
 M.add_cell_after = function()
   core.add_cell_after(cell_marker())
 end
 
---- Create a cell on top of the current one and move to it
+--- [Deperecated] Create a cell on top of the current one and move to it
 M.add_cell_before = function()
   core.add_cell_before(cell_marker())
 end
 
+--- Create a cell under the current one and move to it
+M.add_cell_below = function()
+  core.add_cell_below(cell_marker())
+end
+
+--- Create a cell on top of the current one and move to it
+M.add_cell_above = function()
+  core.add_cell_above(cell_marker())
+end
+
 local hydra_hint = [[
-_j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell before/after
+_j_/_k_: move down/up  _c_: comment  _a_/_b_: add cell above/below
 _x_: run & move down ^^          _X_: run
 ^^                _<esc>_/_q_: exit
 ]]
@@ -145,13 +155,13 @@ local function activate_hydra(config)
     },
     {
       config.hydra_keys.add_cell_after,
-      M.add_cell_after,
-      { desc = "Add cell after", nowait = true },
+      M.add_cell_below,
+      { desc = "Add cell below", nowait = true },
     },
     {
       config.hydra_keys.add_cell_before,
-      M.add_cell_before,
-      { desc = "Add cell after", nowait = true },
+      M.add_cell_above,
+      { desc = "Add cell above", nowait = true },
     },
     { "q", nil, { exit = true, nowait = true, desc = "exit" } },
     { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
