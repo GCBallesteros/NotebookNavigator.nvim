@@ -40,4 +40,14 @@ end
 
 utils.available_repls = find_supported_repls()
 
+utils.has_value = function(tab, val)
+  for _, value in ipairs(tab) do
+    if value == val then
+      return true
+    end
+  end
+
+  return false
+end
+
 return utils
