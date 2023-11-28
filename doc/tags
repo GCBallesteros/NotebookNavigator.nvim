@@ -1,0 +1,16 @@
+M.add_cell_above()	NotebookNavigator.txt	/*M.add_cell_above()*
+M.add_cell_after()	NotebookNavigator.txt	/*M.add_cell_after()*
+M.add_cell_before()	NotebookNavigator.txt	/*M.add_cell_before()*
+M.add_cell_below()	NotebookNavigator.txt	/*M.add_cell_below()*
+M.comment_cell()	NotebookNavigator.txt	/*M.comment_cell()*
+M.config	NotebookNavigator.txt	/*M.config*
+M.miniai_spec()	NotebookNavigator.txt	/*M.miniai_spec()*
+M.move_cell()	NotebookNavigator.txt	/*M.move_cell()*
+M.run_all_cells()	NotebookNavigator.txt	/*M.run_all_cells()*
+M.run_and_move()	NotebookNavigator.txt	/*M.run_and_move()*
+M.run_cell()	NotebookNavigator.txt	/*M.run_cell()*
+M.run_cells_below()	NotebookNavigator.txt	/*M.run_cells_below()*
+M.setup()	NotebookNavigator.txt	/*M.setup()*
+M.split_cell()	NotebookNavigator.txt	/*M.split_cell()*
+NotebookNavigator	NotebookNavigator.txt	/*NotebookNavigator*
+NotebookNavigator.doc	NotebookNavigator.txt	/*NotebookNavigator.doc*
