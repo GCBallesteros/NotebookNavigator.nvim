@@ -84,6 +84,20 @@ M.run_and_move = function(repl_args)
   core.run_and_move(cell_marker(), M.config.repl_provider, repl_args)
 end
 
+--- Run all cells in the file
+---
+---@param repl_args table|nil Optional config for the repl.
+M.run_all_cells = function(repl_args)
+  core.run_all_cells(M.config.repl_provider, repl_args)
+end
+
+--- Run all cells below (including current cell)
+---
+---@param repl_args table|nil Optional config for the repl.
+M.run_cells_below = function(repl_args)
+  core.run_cells_below(cell_marker(), M.config.repl_provider, repl_args)
+end
+
 --- Comment all the contents of the cell under the cursor
 ---
 --- The commenting functionality is supported by external plugins. Currently the
