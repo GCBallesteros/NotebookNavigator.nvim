@@ -19,6 +19,7 @@ Notebook Navigator comes with the following functions and features:
   cells
 - Code cell marker highlighting
 - Support for multiple languages. Notebooks are not just for Pythonistas!
+- ... [and more](#full_api)
 
 This plugin also pairs really well with tools like Jupytext that allow you to
 convert easily between `ipynb` and `py` files. For this you may want to use a
@@ -191,3 +192,26 @@ If you setup the mini.ai integration (see below) you can then do things like,
 `dah` to delete a cell, `yih` to copy just the code or `vah` to select the full
 cell in visual mode. (y)ank, (d)elete and (v)isual also work while inside the
 Hydra mode!
+
+## Full API
+
+NotebookNavigator provides more functionality to manipulate cells than it is
+directly exposed on the Hydra mode. You may use any of those as additional
+keymaps on the plugin configuration or even map them on they Hydra mode as long
+as you take heed of the [advice given above](#current_limitations).
+
+- `move_cell(dir)`: Move up or done a cell in the `u`p or `d`own direction.
+- `run_cell(repl_args)`: Run the current cell. You may optionally pass a table
+of `repl_args` that will be forwarded to the repl. For the details of what is
+forwarded exactly and how it is used check `repls.lua` and look for your repl
+provider.
+- `run_and_move(repl_args)`: Same as above but also move down to the next cell.
+- `run_all_cells(repl_args)`: Run all the file.
+- `run_cells_below(repl_args)`: Run the current cell and all of the ones below.
+- `comment_cell`: Comment the code inside the current cell.
+- `add_cell_below`: Add a cell marker below the current cell.
+- `add_cell_after`: Same as above (deprecated).
+- `add_cell_above`: Add a cell marker above the current cell.
+- `add_cell_before`: Same as above (deprecated).
+- `split_cell`: Add a cell marker at the current line effectively splitting the
+cell.
