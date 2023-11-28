@@ -19,12 +19,11 @@ Notebook Navigator comes with the following functions and features:
   cells
 - Code cell marker highlighting
 - Support for multiple languages. Notebooks are not just for Pythonistas!
-- ... [and more](#full_api)
+- ... [and more](#full-api)
 
 This plugin also pairs really well with tools like Jupytext that allow you to
 convert easily between `ipynb` and `py` files. For this you may want to use a
-plugin such as [jupytext.vim](https://github.com/GCBallesteros/jupytext.vim)  (my fork with some
-extras) or the [original repo](https://github.com/goerz/jupytext.vim).
+plugin such as [jupytext.nvim](https://github.com/GCBallesteros/jupytext.nvim).
 
 ![notebook-navigator](assets/notebook_navigator.gif)
 
@@ -198,7 +197,7 @@ Hydra mode!
 NotebookNavigator provides more functionality to manipulate cells than it is
 directly exposed on the Hydra mode. You may use any of those as additional
 keymaps on the plugin configuration or even map them on they Hydra mode as long
-as you take heed of the [advice given above](#current_limitations).
+as you take heed of the [advice given above](#current-limitations).
 
 - `move_cell(dir)`: Move up or done a cell in the `u`p or `d`own direction.
 - `run_cell(repl_args)`: Run the current cell. You may optionally pass a table
