@@ -216,6 +216,8 @@ below (`dir='d'`).
 - `add_cell_before`: Same as above (deprecated).
 - `split_cell`: Add a cell marker at the current line effectively splitting the
 cell.
+- `merge_cell`: Merge the current cell ith the one above (`dir='u'`) or below
+(`dir='d'`)
 
 ## Contributors
 

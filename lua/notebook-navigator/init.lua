@@ -93,6 +93,15 @@ M.swap_cell = function(dir)
   return core.swap_cell(dir, cell_marker())
 end
 
+--- Merge cell
+---
+--- Merge cell with the above or below
+---
+---@param dir string Merge direction. "d" for down and "u" for up.
+M.merge_cell = function(dir)
+  return core.merge_cell(dir, cell_marker())
+end
+
 --- Run all cells in the file
 ---
 ---@param repl_args table|nil Optional config for the repl.
