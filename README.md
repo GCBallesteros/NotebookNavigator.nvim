@@ -216,3 +216,10 @@ below (`dir='d'`).
 - `add_cell_before`: Same as above (deprecated).
 - `split_cell`: Add a cell marker at the current line effectively splitting the
 cell.
+
+## Contributors
+
+A list of contributors can be found on `contributors.txt`.
+
+Special shoutout to `@cnrobertson` who contributed a significant number of
+features, some of which are not reflected on the commit history.
