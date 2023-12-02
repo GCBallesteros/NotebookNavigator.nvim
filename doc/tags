@@ -12,5 +12,6 @@ M.run_cell()	NotebookNavigator.txt	/*M.run_cell()*
 M.run_cells_below()	NotebookNavigator.txt	/*M.run_cells_below()*
 M.setup()	NotebookNavigator.txt	/*M.setup()*
 M.split_cell()	NotebookNavigator.txt	/*M.split_cell()*
+M.swap_cell()	NotebookNavigator.txt	/*M.swap_cell()*
 NotebookNavigator	NotebookNavigator.txt	/*NotebookNavigator*
 NotebookNavigator.doc	NotebookNavigator.txt	/*NotebookNavigator.doc*

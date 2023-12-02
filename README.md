@@ -205,6 +205,8 @@ of `repl_args` that will be forwarded to the repl. For the details of what is
 forwarded exactly and how it is used check `repls.lua` and look for your repl
 provider.
 - `run_and_move(repl_args)`: Same as above but also move down to the next cell.
+- `swap_cell(dir)`: Swap the current cell with the cell above (`dir='u'`) or
+below (`dir='d'`).
 - `run_all_cells(repl_args)`: Run all the file.
 - `run_cells_below(repl_args)`: Run the current cell and all of the ones below.
 - `comment_cell`: Comment the code inside the current cell.
