@@ -4,6 +4,7 @@ M.add_cell_before()	NotebookNavigator.txt	/*M.add_cell_before()*
 M.add_cell_below()	NotebookNavigator.txt	/*M.add_cell_below()*
 M.comment_cell()	NotebookNavigator.txt	/*M.comment_cell()*
 M.config	NotebookNavigator.txt	/*M.config*
+M.merge_cell()	NotebookNavigator.txt	/*M.merge_cell()*
 M.miniai_spec()	NotebookNavigator.txt	/*M.miniai_spec()*
 M.move_cell()	NotebookNavigator.txt	/*M.move_cell()*
 M.run_all_cells()	NotebookNavigator.txt	/*M.run_all_cells()*
