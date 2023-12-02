@@ -79,6 +79,16 @@ Parameters~
 {repl_args} `(table|nil)` Optional config for the repl.
 
 ------------------------------------------------------------------------------
+                                                                 *M.swap_cell()*
+                              `M.swap_cell`({dir})
+Swap the current cell with the cell immediately above or below
+
+Swap cell with the above or below
+
+Parameters~
+{dir} `(string)` Swap direction. "d" for down and "u" for up.
+
+------------------------------------------------------------------------------
                                                              *M.run_all_cells()*
                          `M.run_all_cells`({repl_args})
 Run all cells in the file

@@ -84,6 +84,15 @@ M.run_and_move = function(repl_args)
   core.run_and_move(cell_marker(), M.config.repl_provider, repl_args)
 end
 
+--- Swap the current cell with the cell immediately above or below
+---
+--- Swap cell with the above or below
+---
+---@param dir string Swap direction. "d" for down and "u" for up.
+M.swap_cell = function(dir)
+  return core.swap_cell(dir, cell_marker())
+end
+
 --- Run all cells in the file
 ---
 ---@param repl_args table|nil Optional config for the repl.
