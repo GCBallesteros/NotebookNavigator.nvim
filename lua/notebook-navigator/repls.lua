@@ -44,6 +44,7 @@ local get_repl = function(repl_provider)
   if repl_provider == "auto" then
     for _, r in ipairs(available_repls) do
       chosen_repl = repls[r]
+      break
     end
   else
     chosen_repl = repls[repl_provider]
