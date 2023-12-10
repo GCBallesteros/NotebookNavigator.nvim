@@ -1,6 +1,6 @@
 local repls = {}
 
-utils = require "notebook-navigator.utils"
+local utils = require "notebook-navigator.utils"
 
 -- iron.nvim
 repls.iron = function(start_line, end_line, repl_args)
