@@ -17,7 +17,8 @@ utils.get_cell_marker = function(bufnr, cell_markers)
   if not vim.bo.commentstring then
     error("There's no cell marker and no commentstring defined for filetype " .. ft)
   end
-  local double_percent_cell_marker = vim.bo.commentstring:format "%%"
+  local cstring = string.gsub(vim.bo.commentstring, "^%%", "%%%%")
+  local double_percent_cell_marker = cstring:format "%%"
   return double_percent_cell_marker
 end
 
