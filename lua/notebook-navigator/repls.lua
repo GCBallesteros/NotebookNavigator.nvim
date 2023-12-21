@@ -37,7 +37,11 @@ end
 
 -- molten
 repls.molten = function(start_line, end_line, repl_args)
-  vim.fn.MoltenEvaluateRange(start_line, end_line)
+
+  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line+1)
+  if not ok then
+    vim.cmd('MoltenInit')
+  end
 end
 
 -- no repl
