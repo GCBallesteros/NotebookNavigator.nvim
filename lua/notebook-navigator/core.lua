@@ -36,7 +36,7 @@ M.run_cell = function(cell_marker, repl_provider, repl_args)
   end
 
   local repl = get_repl(repl_provider)
-  repl(cell_object.from.line, cell_object.to.line, repl_args)
+  repl(cell_object.from.line, cell_object.to.line, repl_args, cell_marker)
 end
 
 M.run_and_move = function(cell_marker, repl_provider, repl_args)

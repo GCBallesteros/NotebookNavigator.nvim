@@ -36,11 +36,17 @@ repls.toggleterm = function(start_line, end_line, repl_args)
 end
 
 -- molten
-repls.molten = function(start_line, end_line, repl_args)
+---@diagnostic disable-next-line: unused-local
+repls.molten = function(start_line, end_line, repl_args, cell_marker)
+  local line_count = vim.api.nvim_buf_line_count(0)
 
-  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line+1)
+  if line_count < (end_line + 1) then
+    vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, false, { cell_marker, "" })
+  end
+
+  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line + 1)
   if not ok then
-    vim.cmd('MoltenInit')
+    vim.cmd "MoltenInit"
   end
 end
 
