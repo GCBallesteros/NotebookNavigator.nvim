@@ -36,18 +36,21 @@ M.run_cell = function(cell_marker, repl_provider, repl_args)
   end
 
   local repl = get_repl(repl_provider)
-  repl(cell_object.from.line, cell_object.to.line, repl_args, cell_marker)
+  return repl(cell_object.from.line, cell_object.to.line, repl_args, cell_marker)
 end
 
 M.run_and_move = function(cell_marker, repl_provider, repl_args)
-  M.run_cell(cell_marker, repl_provider, repl_args)
-  local is_last_cell = M.move_cell("d", cell_marker) == "last"
+  local success = M.run_cell(cell_marker, repl_provider, repl_args)
 
-  -- insert a new cell to replicate the behaviour of jupyter notebooks
-  if is_last_cell then
-    vim.api.nvim_buf_set_lines(0, -1, -1, false, { cell_marker, "" })
-    -- and move to it
-    M.move_cell("d", cell_marker)
+  if success then
+    local is_last_cell = M.move_cell("d", cell_marker) == "last"
+
+    -- insert a new cell to replicate the behaviour of jupyter notebooks
+    if is_last_cell then
+      vim.api.nvim_buf_set_lines(0, -1, -1, false, { cell_marker, "" })
+      -- and move to it
+      M.move_cell("d", cell_marker)
+    end
   end
 end
 

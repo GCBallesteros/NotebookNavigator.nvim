@@ -7,6 +7,8 @@ local utils = require "notebook-navigator.utils"
 repls.iron = function(start_line, end_line, repl_args, _cell_marker)
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
   require("iron.core").send(nil, lines)
+
+  return true
 end
 
 -- toggleterm
@@ -35,6 +37,8 @@ repls.toggleterm = function(start_line, end_line, repl_args, cell_marker)
   vim.api.nvim_set_current_win(current_window)
 
   vim.api.nvim_win_set_cursor(current_window, { cursor_line, cursor_col })
+
+  return true
 end
 
 -- molten
@@ -49,7 +53,10 @@ repls.molten = function(start_line, end_line, repl_args, cell_marker)
   local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line + 1)
   if not ok then
     vim.cmd "MoltenInit"
+    return false
   end
+
+  return true
 end
 
 -- no repl
