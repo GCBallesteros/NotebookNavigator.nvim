@@ -37,6 +37,7 @@ local got_hydra, hydra = pcall(require, "hydra")
 
 local core = require "notebook-navigator.core"
 local highlight = require "notebook-navigator.highlight"
+local miniai_spec = require("notebook-navigator.miniai_spec").miniai_spec
 local utils = require "notebook-navigator.utils"
 
 local cell_marker = function()
@@ -53,7 +54,7 @@ end
 ---@return table Table with keys from/to indicating the start and end of the cell.
 ---   The from/to fields themselves have a line and col field.
 M.miniai_spec = function(opts)
-  return core.miniai_spec(opts, cell_marker())
+  return miniai_spec(opts, cell_marker())
 end
 
 --- Move between cells
@@ -316,6 +317,10 @@ M.setup = function(config)
 
   if #utils.available_repls == 0 then
     vim.notify "[NotebookNavigator] No supported REPLs available.\nMost functionality will error out."
+  elseif
+    M.config.repl_provider ~= "auto" and not utils.has_value(utils.available_repls, M.config.repl_provider)
+  then
+    vim.notify("[NotebookNavigator] The requested repl (" .. M.config.repl_provider .. ") is not available.")
   end
 
   if (M.config.activate_hydra_keys ~= nil) and got_hydra then

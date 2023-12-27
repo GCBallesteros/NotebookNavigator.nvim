@@ -26,6 +26,7 @@ local find_supported_repls = function()
   local supported_repls = {
     { name = "iron", module = "iron" },
     { name = "toggleterm", module = "toggleterm" },
+    { name = "molten", module = "molten.health" },
   }
 
   local available_repls = {}
@@ -39,5 +40,15 @@ local find_supported_repls = function()
 end
 
 utils.available_repls = find_supported_repls()
+
+utils.has_value = function(tab, val)
+  for _, value in ipairs(tab) do
+    if value == val then
+      return true
+    end
+  end
+
+  return false
+end
 
 return utils
