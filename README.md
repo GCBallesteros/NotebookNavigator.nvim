@@ -170,12 +170,13 @@ to `false`. See issue for more details.
 
 
 ## Dependencies
-The only REPL options are currently [iron.nvim](https://github.com/Vigemus/iron.nvim),
-[toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) or
-[molten-nvim](https://github.com/benlubas/molten-nvim) which are automatically detected
-if installed.
-Support for others like `conjure` or `yarepl` may be added if people want them
-or are willing to send in PRs.
+The currently supported REPLs are:
+- [iron.nvim](https://github.com/Vigemus/iron.nvim),
+- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) or
+- [molten-nvim](https://github.com/benlubas/molten-nvim)
+
+The latter are automatically detected. Support for others like `conjure`
+or `yarepl` may be added if people want them or are willing to send in PRs.
 
 Commenting cells of code depends on an external plugin. Either
 [comment.nvim](https://github.com/numToStr/Comment.nvim) or
