@@ -17,6 +17,13 @@ M.miniai_spec = function(opts, cell_marker)
     end_line = vim.fn.line "$"
   end
 
+  if opts == "i" then
+    -- Exclude trailing empty lines at the end
+    while vim.api.nvim_buf_get_lines(0, end_line - 1, end_line, false)[1] == "" do
+      end_line = end_line - 1
+    end
+  end
+
   local last_col = math.max(vim.fn.getline(end_line):len(), 1)
 
   local from = { line = start_line, col = 1 }
