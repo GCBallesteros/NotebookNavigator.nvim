@@ -54,7 +54,7 @@ available through leader keymaps but will turn to the Hydra head when many cells
 be run (just by smashing `x`) or for less commonly used functionality.
 ```lua
 {
-  "GCBallesteros/NotebookNavigator.nvim",
+  "ESSO0428/NotebookNavigator.nvim",
   keys = {
     { "]h", function() require("notebook-navigator").move_cell "d" end },
     { "[h", function() require("notebook-navigator").move_cell "u" end },
@@ -88,7 +88,7 @@ look like:
 return {
   "echasnovski/mini.hipatterns",
   event = "VeryLazy",
-  dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
+  dependencies = { "ESSO0428/NotebookNavigator.nvim" },
   opts = function()
     local nn = require "notebook-navigator"
 
@@ -112,7 +112,7 @@ meant include the _code cell_ text object then your 'mini.ai' could look like:
 return {
   "echasnovski/mini.ai",
   event = "VeryLazy",
-  dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
+  dependencies = { "ESSO0428/NotebookNavigator.nvim" },
   opts = function()
     local nn = require "notebook-navigator"
 
