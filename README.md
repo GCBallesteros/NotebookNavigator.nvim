@@ -56,6 +56,8 @@ be run (just by smashing `x`) or for less commonly used functionality.
 {
   "ESSO0428/NotebookNavigator.nvim",
   keys = {
+    { "[e", function() require("notebook-navigator").run_cells_above "" end },
+    { "]e", function() require("notebook-navigator").run_cells_below "" end },
     { "]h", function() require("notebook-navigator").move_cell "d" end },
     { "[h", function() require("notebook-navigator").move_cell "u" end },
     { "<leader>X", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
