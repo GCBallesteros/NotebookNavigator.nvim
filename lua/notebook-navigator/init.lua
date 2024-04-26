@@ -110,6 +110,13 @@ M.run_all_cells = function(repl_args)
   core.run_all_cells(M.config.repl_provider, repl_args)
 end
 
+--- Run all cells above the current cell
+---
+---@param repl_args table|nil Optional config for the repl.
+M.run_cells_above = function(repl_args)
+  core.run_cells_above(cell_marker(), M.config.repl_provider, repl_args)
+end
+
 --- Run all cells below (including current cell)
 ---
 ---@param repl_args table|nil Optional config for the repl.
@@ -207,7 +214,7 @@ local function activate_hydra(config)
       M.split_cell,
       { desc = "Split cell", nowait = true },
     },
-    { "q", nil, { exit = true, nowait = true, desc = "exit" } },
+    { "q",     nil, { exit = true, nowait = true, desc = "exit" } },
     { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
   }
 
@@ -318,7 +325,7 @@ M.setup = function(config)
   if #utils.available_repls == 0 then
     vim.notify "[NotebookNavigator] No supported REPLs available.\nMost functionality will error out."
   elseif
-    M.config.repl_provider ~= "auto" and not utils.has_value(utils.available_repls, M.config.repl_provider)
+      M.config.repl_provider ~= "auto" and not utils.has_value(utils.available_repls, M.config.repl_provider)
   then
     vim.notify("[NotebookNavigator] The requested repl (" .. M.config.repl_provider .. ") is not available.")
   end
