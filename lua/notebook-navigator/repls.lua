@@ -15,7 +15,7 @@ end
 ---@diagnostic disable-next-line: unused-local
 repls.toggleterm = function(start_line, end_line, repl_args, cell_marker)
   local id = 1
-  local trim_spaces = true
+  local trim_spaces = false
   if repl_args then
     id = repl_args.id or 1
     trim_spaces = (repl_args.trim_spaces == nil) or repl_args.trim_spaces
