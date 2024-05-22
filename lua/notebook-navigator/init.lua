@@ -267,6 +267,8 @@ M.config = {
   -- The repl plugin with which to interface
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
+  -- installed
+  -- (start_line, end_line, repl_args, cell_marker) -> boolean (success)
   repl_provider = "auto",
   -- Syntax based highlighting. If you don't want to install mini.hipattners or
   -- enjoy a more minimalistic look
@@ -318,7 +320,9 @@ M.setup = function(config)
   if #utils.available_repls == 0 then
     vim.notify "[NotebookNavigator] No supported REPLs available.\nMost functionality will error out."
   elseif
-    M.config.repl_provider ~= "auto" and not utils.has_value(utils.available_repls, M.config.repl_provider)
+    M.config.repl_provider ~= "auto"
+    and type(M.config.repl_provider) == "string"
+    and not utils.has_value(utils.available_repls, M.config.repl_provider)
   then
     vim.notify("[NotebookNavigator] The requested repl (" .. M.config.repl_provider .. ") is not available.")
   end
