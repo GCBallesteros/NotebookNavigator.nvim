@@ -221,11 +221,13 @@ local function activate_hydra(config)
   local hydra_config = {
     name = "NotebookNavigator",
     mode = { "n" },
-    config = {
+    config = vim.tbl_extend("force", {
       invoke_on_body = true,
       color = "pink",
       hint = { border = "rounded" },
-    },
+      buffer = config.buffer,
+      desc = config.desc,
+    }, config.hydra),
     body = config.activate_hydra_keys,
     heads = active_hydra_heads,
   }
