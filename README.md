@@ -222,6 +222,12 @@ cell.
 - `merge_cell`: Merge the current cell ith the one above (`dir='u'`) or below
 (`dir='d'`)
 
+## Related plugins
+
+- [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs)
+also provides a notebook cell object that you might want to consider if you are
+not interested on all the other functionality in NotebookNavigator.
+
 ## Contributors
 
 A list of contributors can be found on `contributors.txt`.
