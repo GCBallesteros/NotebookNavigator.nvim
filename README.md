@@ -153,8 +153,9 @@ Any options that are not specified when calling `setup` will take on their defau
   },
   -- The repl plugin with which to interface
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
-  -- "molten" for molten-nvim or "auto" which checks which of the above are 
+  -- "molten" for molten-nvim or "auto" which checks which of the above are
   -- installed
+  -- (start_line, end_line, repl_args, cell_marker) -> boolean (success)
   repl_provider = "auto",
   -- Syntax based highlighting. If you don't want to install mini.hipattners or
   -- enjoy a more minimalistic look

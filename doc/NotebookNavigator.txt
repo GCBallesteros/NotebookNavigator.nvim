@@ -184,6 +184,8 @@ Default values:
     -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
     -- "molten" for molten-nvim or "auto" which checks which of the above are 
     -- installed
+    -- or provide a function with signature 
+    -- (start_line, end_line, repl_args, cell_marker) -> boolean (success)
     repl_provider = "auto",
     -- Syntax based highlighting. If you don't want to install mini.hipattners or
     -- enjoy a more minimalistic look

@@ -70,8 +70,10 @@ local get_repl = function(repl_provider)
       chosen_repl = repls[r]
       break
     end
-  else
+  elseif type(repl_provider) == "string" then
     chosen_repl = repls[repl_provider]
+  elseif type(repl_provider) == "function" then
+    chosen_repl = repl_provider
   end
 
   -- Check if we actuall got out a supported repl
