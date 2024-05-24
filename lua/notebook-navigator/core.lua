@@ -7,17 +7,26 @@ local M = {}
 M.move_cell = function(dir, cell_marker)
   local search_res
   local result
+  local mod = dir:sub(2, 2)
 
-  if dir == "d" then
+  if dir == "d" or dir == "D" or dir == "e" then
     search_res = vim.fn.search("^" .. cell_marker, "W")
     if search_res == 0 then
       result = "last"
+    elseif dir == "D" then
+      vim.fn.search("^\\w", "W")
+    elseif dir == "e" then
+      vim.fn.search("^\\w", "bW")
     end
   else
     search_res = vim.fn.search("^" .. cell_marker, "bW")
     if search_res == 0 then
       result = "first"
       vim.api.nvim_win_set_cursor(0, { 1, 0 })
+    elseif dir == "U" then
+      vim.fn.search("^\\w", "W")
+    elseif dir == "E" then
+      vim.fn.search("^\\w", "bW")
     end
   end
 

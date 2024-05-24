@@ -205,6 +205,8 @@ keymaps on the plugin configuration or even map them on they Hydra mode as long
 as you take heed of the [advice given above](#current-limitations).
 
 - `move_cell(dir)`: Move up or done a cell in the `u`p or `d`own direction.
+  - `D` to move to the first non-empty line of the next cell, likewise `U`
+  - `e` to move to the last non-empty line of the next cell, `E` for previous cell
 - `run_cell(repl_args)`: Run the current cell. You may optionally pass a table
 of `repl_args` that will be forwarded to the repl. For the details of what is
 forwarded exactly and how it is used check `repls.lua` and look for your repl
