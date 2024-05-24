@@ -54,10 +54,8 @@ available through leader keymaps but will turn to the Hydra head when many cells
 be run (just by smashing `x`) or for less commonly used functionality.
 ```lua
 {
-  "ESSO0428/NotebookNavigator.nvim",
+  "GCBallesteros/NotebookNavigator.nvim",
   keys = {
-    { "[e", function() require("notebook-navigator").run_cells_above "" end },
-    { "]e", function() require("notebook-navigator").run_cells_below "" end },
     { "]h", function() require("notebook-navigator").move_cell "d" end },
     { "[h", function() require("notebook-navigator").move_cell "u" end },
     { "<leader>X", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
@@ -90,7 +88,7 @@ look like:
 return {
   "echasnovski/mini.hipatterns",
   event = "VeryLazy",
-  dependencies = { "ESSO0428/NotebookNavigator.nvim" },
+  dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
   opts = function()
     local nn = require "notebook-navigator"
 
@@ -114,7 +112,7 @@ meant include the _code cell_ text object then your 'mini.ai' could look like:
 return {
   "echasnovski/mini.ai",
   event = "VeryLazy",
-  dependencies = { "ESSO0428/NotebookNavigator.nvim" },
+  dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
   opts = function()
     local nn = require "notebook-navigator"
 
@@ -224,6 +222,12 @@ below (`dir='d'`).
 cell.
 - `merge_cell`: Merge the current cell ith the one above (`dir='u'`) or below
 (`dir='d'`)
+
+## Related plugins
+
+- [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs)
+also provides a notebook cell object that you might want to consider if you are
+not interested on all the other functionality in NotebookNavigator.
 
 ## Contributors
 
