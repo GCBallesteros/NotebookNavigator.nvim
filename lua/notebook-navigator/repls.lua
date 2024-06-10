@@ -50,7 +50,17 @@ repls.molten = function(start_line, end_line, repl_args, cell_marker)
     vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, false, { cell_marker, "" })
   end
 
-  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line)
+  -- to avoid image showing in the next cell, only evaluate to last non-empty line
+  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+  local non_empty_end_line = nil
+  for i = #lines, 1, -1 do
+    if lines[i]:gsub("%s+", "") ~= "" then
+      non_empty_end_line = end_line - #lines + i
+      break
+    end
+  end
+
+  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, non_empty_end_line)
   if not ok then
     vim.cmd "MoltenInit"
     return false
