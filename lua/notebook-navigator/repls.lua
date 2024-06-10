@@ -50,7 +50,7 @@ repls.molten = function(start_line, end_line, repl_args, cell_marker)
     vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, false, { cell_marker, "" })
   end
 
-  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line + 1)
+  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line)
   if not ok then
     vim.cmd "MoltenInit"
     return false
